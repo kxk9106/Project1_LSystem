@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<title>Project1LSystem</title>
+	<meta name="generator" content="BBEdit 11.1" />
+	<link href="libraries/jquery-ui-1.11.4.custom/jquery-ui.css" rel="stylesheet">
+	<link href="libraries/jquery-ui-1.11.4.custom/jquery-ui.css" rel="stylesheet">
+	<link href="libraries/jquery-ui-1.11.4.custom/jquery-ui.min.css">
+	<link href ="libraries/jquery-ui-1.11.4.custom/jquery-ui.structure.css">
+	<link href="libraries/jquery-ui-1.11.4.custom/jquery-ui.structure.min.css">
+	<link href="libraries/jquery-ui-1.11.4.custom/jquery-ui.theme.css">
+	<link href="libraries/jquery-ui-1.11.4.custom/jquery-ui.theme.min.css">
+
+</head>
+<script src="libraries/jquery-1.12.2.js"></script>
+<script src="libraries/victor-1.1.0/build/victor.js"></script>
+<script src="libraries/jquery-ui-1.11.4.custom/jquery-ui.js"></script>
+
+<body>
+	<canvas id = "canvas"> </canvas>
+	<button id="plantButton">Plant</button>
+	<button id="waterButton">Water</button>
+</body>
+
+<script>
+!function(){
+	'use strict'
+	var count = 2;
+	var canvas;
+	var ctx;
+	var audioCtx;
+	var plant = true;
+	var water = false;
+	
+	var garden = new Image();
+	garden.src = 'pictures/garden.jpg';
+	garden.id = 'gard';
+	
+	var pot = new Image();
+	pot.src = 'pictures/pot.png';
+	pot.id = 'po';
+	
+	var pot1 = false;
+	var pot2 = false;
+	var pot3 = false;
+	
+	var plant1 = 0;
+	var plantGen1 = [];
+	
+
+	
+	$("button").button();
+	
+	$('#plantButton')
+		.click(function(){
+			plant = true;
+			water = false;
+			console.log(plant);
+	});
+	$('#waterButton')
+		.click(function(){
+			plant = false;
+			water = true;
+			console.log(plant);
+	});
+	
+	
+	
+	function setup(){
+		canvas = document.getElementById("canvas");
+		ctx = canvas.getContext("2d");
+		canvas.setAttribute("width",window.innerWidth-16);
+		canvas.setAttribute("height",window.innerHeight - 100);
+		audioCtx = new AudioContext();
+		
+		garden.width = canvas.width;
+		garden.height = canvas.height;
+		
+		
+	}
+	setup();
+	var vec2 = Victor;
+	window.Turtle = function(canvas,startX,startY){
+		Object.assign(this, {
+			canvas:null,
+			weight:1,
+			color:'red',
+			pos: vec2(startX,startY),
+			dir: vec2(0,-1),
+			pen:1,
+			posArray:[],
+			dirArray:[],
+			penUp : function() {this.pen = 0},
+			penDown: function() {this.pen = 1},
+			
+			push: function(){
+				this.posArray.push (this.pos.clone())
+				this.dirArray.push(this.dir.clone())
+			},
+			
+			pop: function() {
+				this.pos = this.posArray.pop()
+				this.dir = this.dirArray.pop()
+				this.canvas.moveTo(this.pos.x,this.pos.y)
+			},
+			
+			//THIS IS IN RADIANS!!!
+			rotate: function(amt){
+				this.dir.rotate(amt)
+			},
+			
+			move: function(amt){
+				if(this.pen) this.canvas.beginPath()
+				this.canvas.moveTo(this.pos.x,this.pos.y)
+				
+				this.pos.x += this.dir.x * amt
+				this.pos.y += this.dir.y * amt
+				
+				if(this.pen){
+					this.canvas.lineTo(this.pos.x,this.pos.y)
+					this.canvas.lineWidth = this.weight
+					this.canvas.stroke()
+					this.canvas.closePath()
+				}
+				else{
+					this.moveTo(this.pos.x,this.pos.y)
+				}
+			},
+		})
+		this.canvas = canvas
+		this.canvas.moveTo(this.pos.x,this.pos.y)
+	}
+	window.xavier = new Turtle(ctx, 250,window.innerHeight);
+	
+	 var degToRad = function( deg ) {
+      return deg * Math.PI / 180
+    }
+	var string = "F";
+	var newString = "";
+	function rules(){
+		newString = "";
+		for(var i = 0; i < string.length; i++)
+		{
+			if(string.charAt(i) == 'F')
+			{
+				newString += "F[+FF]F[-FF][FF]";
+			}	
+			else
+			{
+				newString += string.charAt(i);
+			}	
+			//plantGen1[plant1] = newString;
+		}
+		
+		string = newString;
+	}
+	
+	var thetaDeg = 20;
+	var theta = 2;
+	
+		
+	theta = degToRad(thetaDeg);
+		
+
+	var time = 0;
+	var timeDeg;
+	var right = true;
+	
+	var mousex;
+	var mousey;
+	var event;
+	
+	
+
+	canvas.onmousedown = function(event){
+		mousex = event.x;
+  		mousey = event.y;
+
+		//mousex += canvas.offsetLeft;
+ 		//mousey += canvas.offsetTop;
+ 		
+ 		//console.log("off: " + canvas.offsetLeft);
+
+  		getMousePosition();
+  		console.log(plantGen1[0]);
+	}
+	
+	
+	function getMousePosition(event){
+		console.log("X: " + mousex + " Y: " + mousey);
+		console.log(canvas.width-canvas.width/1.8);
+		
+		//1st pot
+		if((mousex >= canvas.width/6) && (mousex < canvas.width/6 + pot.width)
+		&& (mousey >= canvas.height-150) && (mousey < canvas.height-150 + pot.height)){
+				pot1 = true;
+				pot2 = false;
+				pot3 = false;
+				console.log("Pot1: " + pot1 + " Pot2: " + pot2 + " Pot3: " + pot3);
+				if(plant1 < 3){
+					plant1++;
+					console.log("Plant num: " + plant1);
+					drawCorrect();
+				}
+				
+		}
+		
+		//2nd pot
+		if((mousex >= canvas.width - canvas.width/1.8) && (mousex < canvas.width - canvas.width/1.8 + pot.width)
+		&& (mousey >= canvas.height-150) && (mousey < canvas.height-150 + pot.height)){
+				pot1 = false;
+				pot2 = true;
+				pot3 = false;
+				console.log("Pot1: " + pot1 + " Pot2: " + pot2 + " Pot3: " + pot3);
+		}
+		//3rd pot
+		if((mousex >= canvas.width - canvas.width/4) && (mousex < canvas.width - canvas.width/4 + pot.width)
+		&& (mousey >= canvas.height-150) && (mousey < canvas.height-150 + pot.height)){
+				pot1 = false;
+				pot2 = false;
+				pot3 = true;
+				console.log("Pot1: " + pot1 + " Pot2: " + pot2 + " Pot3: " + pot3);
+		}
+	}
+	
+		
+
+	
+	function draw(){
+	/*
+		if(right == true){
+			time = time -.07;
+			if(time < -3){
+				right = false;
+			}
+		}
+		if(right == false){
+			time = time +.07;
+			if(time > 3){
+				right = true;
+			}
+		}*/
+		//ctx.clearRect(0, 0, canvas.width, canvas.height);
+		
+		xavier.pos =  vec2(canvas.width/6 + pot.width/2,canvas.height-150 + pot.height/2)
+		ctx.fillStyle = "green";
+		ctx.drawImage(garden,0, 0,garden.width,garden.height);
+		
+
+		ctx.fillStyle = "yellow";
+		ctx.beginPath();
+		ctx.arc(100,75,50,0,2*Math.PI);
+		ctx.stroke();
+		ctx.fill();
+		
+		ctx.save();
+		timeDeg = degToRad(time);
+		ctx.translate(0,0);
+		ctx.rotate(timeDeg);
+		
+		console.log(string.length);
+		for(var j =0; j< string.length; j++)
+		{
+			if(string.charAt(j) =='F')
+			{
+				ctx.strokeStyle = 'rgb(' + (Math.floor(Math.random() * 256)) + ',' + (Math.floor(Math.random() 
+				* 256)) + ',' + (Math.floor(Math.random() * 256)) + ')';
+				xavier.move(15)
+			}else if(string.charAt(j) =='+')
+			{
+	
+				xavier.rotate(-theta);
+			}else if(string.charAt(j) == '-')
+			{
+				xavier.rotate(theta);
+			}else if(string.charAt(j) == '[')
+			{
+				xavier.push(xavier.pos.clone());
+			}else if(string.charAt(j) == ']')
+			{
+				xavier.pop();
+			}
+		}
+		
+		ctx.restore();
+		
+		ctx.drawImage(pot,canvas.width/6, canvas.height-150);
+		ctx.drawImage(pot,canvas.width - canvas.width/1.8, canvas.height-150);
+		ctx.drawImage(pot,canvas.width - canvas.width/4, canvas.height-150);
+	}
+	
+	function drawCorrect(){
+		for(var k = 0; k < plant1; k++){
+			rules();
+		}
+		draw();
+	}
+	drawCorrect();
+	
+	
+	
+	
+	/*function playNote(){
+		var osc;
+		var gainNode;
+		gainNode = audioCtx.createGain();
+		osc = audioCtx.createOscillator()
+		osc.type = 'sine';
+		osc.frequency.value = time*1000;
+		gainNode = audioCtx.createGain();
+		gainNode.gain.setValueAtTime(0,audioCtx.currentTime);
+		gainNode.gain.linearRampToValueAtTime(10,audioCtx.currentTime + 1);
+		gainNode.gain.linearRampToValueAtTime(0,audioCtx.currentTime +2);
+		osc.connect(audioCtx.destination);
+		gainNode.connect(audioCtx.destination);
+		osc.start();
+		osc.stop(audioCtx.currentTime + 1);
+	}*/
+
+		
+	
+	
+	/*function cycle()
+	{
+		draw();
+		//playNote();
+
+		window.setTimeout(function(){window.requestAnimationFrame(cycle);},20);
+		
+	}
+	window.requestAnimationFrame(cycle);*/
+
+}()
+
+  </script>
+
+</html>
