@@ -47,6 +47,13 @@
 	
 	var plant1 = 0;
 	var plantGen1 = [];
+	var click = true;
+	
+	var j = 0;
+	
+	var lastPos;
+	
+	var vec2 = Victor;
 	
 
 	
@@ -77,10 +84,11 @@
 		garden.width = canvas.width;
 		garden.height = canvas.height;
 		
+		lastPos = vec2(canvas.width/3 + pot.width/2,canvas.height-130 + pot.height/2);
 		
 	}
 	setup();
-	var vec2 = Victor;
+	
 	window.Turtle = function(canvas,startX,startY){
 		Object.assign(this, {
 			canvas:null,
@@ -132,6 +140,7 @@
 		this.canvas.moveTo(this.pos.x,this.pos.y)
 	}
 	window.xavier = new Turtle(ctx, 250,window.innerHeight);
+	//xavier.pos =  vec2(canvas.width/6 + pot.width/2,canvas.height-150 + pot.height/2)
 	
 	 var degToRad = function( deg ) {
       return deg * Math.PI / 180
@@ -198,7 +207,7 @@
 				pot2 = false;
 				pot3 = false;
 				console.log("Pot1: " + pot1 + " Pot2: " + pot2 + " Pot3: " + pot3);
-				if(plant1 < 3){
+				if(plant1 < 3 && click == true){
 					plant1++;
 					console.log("Plant num: " + plant1);
 					drawCorrect();
@@ -240,10 +249,11 @@
 			if(time > 3){
 				right = true;
 			}
-		}*/
-		//ctx.clearRect(0, 0, canvas.width, canvas.height);
+		}*/		
 		
-		xavier.pos =  vec2(canvas.width/6 + pot.width/2,canvas.height-150 + pot.height/2)
+		xavier.pos = lastPos;
+		console.log("Xavier: " + xavier.pos);
+		console.log("Last: " +lastPos);
 		ctx.fillStyle = "green";
 		ctx.drawImage(garden,0, 0,garden.width,garden.height);
 		
@@ -261,8 +271,8 @@
 		
 		console.log(string.length);
 		
-		var j = 0;                    
-
+		                    
+		
 		function myLoop () {           
 			setTimeout(function () {    
 				if(string.charAt(j) =='F')
@@ -291,9 +301,14 @@
 				       
 				j++;                   
 				if (j < string.length) {          
-					myLoop();            
-				}                      
+					myLoop();
+					click = false;
+				}
+				if(j == string.length){
+					click = true;
+				}
 			}, 5)
+			lastPos = xavier.pos;
 		}
 
 		myLoop(); 
@@ -312,8 +327,11 @@
 		}
 		draw();
 	}
-	drawCorrect();
 	
+	garden.onload = function(){
+		drawCorrect();
+	}
+
 	
 	
 	
