@@ -33,13 +33,6 @@
 	var plant = true;
 	var water = false;
 	
-	var garden = new Image();
-	garden.src = 'pictures/garden.jpg';
-	garden.id = 'gard';
-	
-	var pot = new Image();
-	pot.src = 'pictures/pot.png';
-	pot.id = 'po';
 	
 	var pot1 = false;
 	var pot2 = false;
@@ -81,10 +74,22 @@
 		canvas.setAttribute("height",window.innerHeight - 100);
 		audioCtx = new AudioContext();
 		
-		garden.width = canvas.width;
-		garden.height = canvas.height;
+		ctx.fillStyle = "black";
+		ctx.fillRect(0,0,canvas.width,canvas.height);
 		
-		lastPos = vec2(canvas.width/3 + pot.width/2,canvas.height-130 + pot.height/2);
+		ctx.fillStyle = "red";
+		ctx.fillRect(canvas.width/6+70, canvas.height-60, 50,50);
+		ctx.fillRect(canvas.width - canvas.width/1.8 + 70, canvas.height-60, 50,50);
+		ctx.fillRect(canvas.width - canvas.width/4 + 70, canvas.height-60, 50,50);
+		
+		ctx.fillStyle = "#FEFCD7";
+		ctx.beginPath();
+		ctx.arc(100,75,50,0,2*Math.PI);
+		ctx.stroke();
+		ctx.fill();
+		
+		
+		lastPos = vec2(canvas.width/6+94,canvas.height-50);
 		
 	}
 	setup();
@@ -140,9 +145,8 @@
 		this.canvas.moveTo(this.pos.x,this.pos.y)
 	}
 	window.xavier = new Turtle(ctx, 250,window.innerHeight);
-	//xavier.pos =  vec2(canvas.width/6 + pot.width/2,canvas.height-150 + pot.height/2)
 	
-	 var degToRad = function( deg ) {
+	var degToRad = function( deg ) {
       return deg * Math.PI / 180
     }
 	var string = "F";
@@ -159,7 +163,6 @@
 			{
 				newString += string.charAt(i);
 			}	
-			//plantGen1[plant1] = newString;
 		}
 		
 		string = newString;
@@ -186,11 +189,6 @@
 		mousex = event.x;
   		mousey = event.y;
 
-		//mousex += canvas.offsetLeft;
- 		//mousey += canvas.offsetTop;
- 		
- 		//console.log("off: " + canvas.offsetLeft);
-
   		getMousePosition();
   		console.log(plantGen1[0]);
 	}
@@ -198,11 +196,10 @@
 	
 	function getMousePosition(event){
 		console.log("X: " + mousex + " Y: " + mousey);
-		console.log(canvas.width-canvas.width/1.8);
 		
 		//1st pot
-		if((mousex >= canvas.width/6) && (mousex < canvas.width/6 + pot.width)
-		&& (mousey >= canvas.height-150) && (mousey < canvas.height-150 + pot.height)){
+		if((mousex >= canvas.width/6+78) & (mousex < canvas.width/6 + 78 + 50)
+		&& (mousey >= canvas.height-49) && (mousey < canvas.height-49 + 50)){
 				pot1 = true;
 				pot2 = false;
 				pot3 = false;
@@ -216,16 +213,16 @@
 		}
 		
 		//2nd pot
-		if((mousex >= canvas.width - canvas.width/1.8) && (mousex < canvas.width - canvas.width/1.8 + pot.width)
-		&& (mousey >= canvas.height-150) && (mousey < canvas.height-150 + pot.height)){
+		if((mousex >= canvas.width - canvas.width/1.8 + 78) && (mousex < canvas.width - canvas.width/1.8 + 78 + 50)
+		&& (mousey >= canvas.height-49) && (mousey < canvas.height-49 + 50)){
 				pot1 = false;
 				pot2 = true;
 				pot3 = false;
 				console.log("Pot1: " + pot1 + " Pot2: " + pot2 + " Pot3: " + pot3);
 		}
 		//3rd pot
-		if((mousex >= canvas.width - canvas.width/4) && (mousex < canvas.width - canvas.width/4 + pot.width)
-		&& (mousey >= canvas.height-150) && (mousey < canvas.height-150 + pot.height)){
+		if((mousex >= canvas.width - canvas.width/4 + 78) && (mousex < canvas.width - canvas.width/4 + 78 + 50)
+		&& (mousey >= canvas.height-49) && (mousey < canvas.height-49 + 50)){
 				pot1 = false;
 				pot2 = false;
 				pot3 = true;
@@ -236,33 +233,13 @@
 		
 
 	
-	function draw(){
-	/*
-		if(right == true){
-			time = time -.07;
-			if(time < -3){
-				right = false;
-			}
-		}
-		if(right == false){
-			time = time +.07;
-			if(time > 3){
-				right = true;
-			}
-		}*/		
+	function draw(){	
 		
 		xavier.pos = lastPos;
 		console.log("Xavier: " + xavier.pos);
 		console.log("Last: " +lastPos);
-		ctx.fillStyle = "green";
-		ctx.drawImage(garden,0, 0,garden.width,garden.height);
-		
+		ctx.fillStyle = "green";		
 
-		ctx.fillStyle = "yellow";
-		ctx.beginPath();
-		ctx.arc(100,75,50,0,2*Math.PI);
-		ctx.stroke();
-		ctx.fill();
 		
 		ctx.save();
 		timeDeg = degToRad(time);
@@ -315,10 +292,6 @@
 
 		
 		ctx.restore();
-		
-		ctx.drawImage(pot,canvas.width/6, canvas.height-150);
-		ctx.drawImage(pot,canvas.width - canvas.width/1.8, canvas.height-150);
-		ctx.drawImage(pot,canvas.width - canvas.width/4, canvas.height-150);
 	}
 	
 	function drawCorrect(){
@@ -327,43 +300,6 @@
 		}
 		draw();
 	}
-	
-	garden.onload = function(){
-		drawCorrect();
-	}
-
-	
-	
-	
-	/*function playNote(){
-		var osc;
-		var gainNode;
-		gainNode = audioCtx.createGain();
-		osc = audioCtx.createOscillator()
-		osc.type = 'sine';
-		osc.frequency.value = time*1000;
-		gainNode = audioCtx.createGain();
-		gainNode.gain.setValueAtTime(0,audioCtx.currentTime);
-		gainNode.gain.linearRampToValueAtTime(10,audioCtx.currentTime + 1);
-		gainNode.gain.linearRampToValueAtTime(0,audioCtx.currentTime +2);
-		osc.connect(audioCtx.destination);
-		gainNode.connect(audioCtx.destination);
-		osc.start();
-		osc.stop(audioCtx.currentTime + 1);
-	}*/
-
-		
-	
-	
-	/*function cycle()
-	{
-		draw();
-		//playNote();
-
-		window.setTimeout(function(){window.requestAnimationFrame(cycle);},20);
-		
-	}
-	window.requestAnimationFrame(cycle);*/
 
 }()
 
