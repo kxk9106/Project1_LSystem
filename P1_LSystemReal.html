@@ -18,7 +18,7 @@
 <script src="libraries/jquery-ui-1.11.4.custom/jquery-ui.js"></script>
 
 <body>
-	<canvas id = "canvas"> </canvas>
+	<canvas id = "canvas" class = "toggle"> </canvas>
 	<button id="plantButton">Plant</button>
 	<span>
 		<label for="style1">Style 1</label>
@@ -32,7 +32,7 @@
 		<label for="style3">Style 3</label>
 		<input type="radio" name = "form" value= "style3" checked id="style3">
 	</span>
-	<button id="waterButton">Water</button>
+	<button id="eraseButton">Hurricane</button>
 
 </body>
 
@@ -87,10 +87,22 @@
 			plant = true;
 			water = false;
 	});
-	$('#waterButton')
+	$('#eraseButton')
 		.click(function(){
-			plant = false;
-			water = true;
+			$(".toggle").effect("shake");
+				ctx.fillStyle = "black";
+				ctx.fillRect(0,0,canvas.width,canvas.height);
+	
+				ctx.fillStyle = "red";
+				ctx.fillRect(canvas.width/6+70, canvas.height-60, 50,50);
+				ctx.fillRect(canvas.width - canvas.width/1.8 + 70, canvas.height-60, 50,50);
+				ctx.fillRect(canvas.width - canvas.width/4 + 70, canvas.height-60, 50,50);
+	
+				ctx.fillStyle = "#FEFCD7";
+				ctx.beginPath();
+				ctx.arc(100,75,50,0,2*Math.PI);
+				ctx.stroke();
+				ctx.fill();
 	});
 	
 	
@@ -246,7 +258,6 @@
   		mousey = event.y;
 
   		getMousePosition();
-  		//console.log("xavier: " + xavier.pos + " Jade " + jade.pos);
 	}
 	
 	
