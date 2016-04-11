@@ -51,11 +51,6 @@
 				<option value="media/Qi_Phildel.mp3">Qi_Phildel</option>
 			</select>
 		</label>
-		
-	<div class="ui-widget-header"> <p> Okay </p></div>
-		
-		
-
 </body>
 
 <script>
@@ -126,8 +121,8 @@
 		.click(function(){
 			  	console.log("bird: " + document.getElementById("draggable").style.left);
 			  	console.log("bird: " + document.getElementById("draggable").style.top);
-			if(parseInt(document.getElementById("draggable").style.left) > 251 && parseInt(document.getElementById("draggable").style.left) < 328
-			&& parseInt(document.getElementById("draggable").style.top) > 317 && parseInt(document.getElementById("draggable").style.top) < 400){
+			if(parseInt(document.getElementById("draggable").style.left) > canvas.width/6+70 && parseInt(document.getElementById("draggable").style.left) < canvas.width/6+70+50
+			&& parseInt(document.getElementById("draggable").style.top) > canvas.height-60 && parseInt(document.getElementById("draggable").style.top) < canvas.height-60 + 50){
 				
 				if(planted == true){
 					if(breed[0] != style && breed[1] != style && breed.length != 2){
@@ -140,36 +135,16 @@
 				}
 				else if(planted == false && breed.length == 2){
 					didBreed = true;
-					/*var string4 = "F";
-					var newString4 = "";
-					function rules(){
-						planted = true;
-						newString4 = "";
-						for(var i = 0; i < string4.length; i++)
-						{
-							if(string4.charAt(i) == 'F')
-							{
-								newString4 += "F[-F]F[+F][-FF]F[F-F]F[+F]F";
-		
-							}	
-							else
-							{
-								newString4 += string4.charAt(i);
-							}	
-						}
-	
-						string4 = newString4;
-					}*/
+					document.getElementById("draggable").style.left = "50px";
+					document.getElementById("draggable").style.top = "210px";
+
 					console.log("breed here");
 					
 	
 				}
-				
-			
-			
 			}
-			else if (parseInt(document.getElementById("draggable").style.left) > 604 && parseInt(document.getElementById("draggable").style.left) < 693
-			&& parseInt(document.getElementById("draggable").style.top) > 317 && parseInt(document.getElementById("draggable").style.top) < 400){
+			else if (parseInt(document.getElementById("draggable").style.left) > canvas.width - canvas.width/1.8 + 70 && parseInt(document.getElementById("draggable").style.left) < canvas.width - canvas.width/1.8 + 70 + 50
+			&& parseInt(document.getElementById("draggable").style.top) > canvas.height-60 && parseInt(document.getElementById("draggable").style.top) < canvas.height-60+50){
 				if(planted2 == true){
 					if(breed[0] != style2 && breed[1] != style2 && breed.length != 2){
 						breed[breedNum] = style2;
@@ -179,9 +154,15 @@
 						breedNum++;
 					}
 				}
+				else if(planted2 == false && breed.length == 2){
+					didBreed2 = true;
+					document.getElementById("draggable").style.left = "50px";
+					document.getElementById("draggable").style.top = "210px";
+					console.log("breed here");
+				}
 			}
-			else if (parseInt(document.getElementById("draggable").style.left) > 1004 && parseInt(document.getElementById("draggable").style.left) < 1084
-			&& parseInt(document.getElementById("draggable").style.top) > 317 && parseInt(document.getElementById("draggable").style.top) < 400){
+			else if (parseInt(document.getElementById("draggable").style.left) > canvas.width - canvas.width/4 + 70 && parseInt(document.getElementById("draggable").style.left) < canvas.width - canvas.width/4 + 70+ 50
+			&& parseInt(document.getElementById("draggable").style.top) > canvas.height-60 && parseInt(document.getElementById("draggable").style.top) < canvas.height-60 + 50){
 				if(planted3 == true){
 					if(breed[0] != style3 && breed[1] != style3 && breed.length != 2){
 						breed[breedNum] = style3;
@@ -190,6 +171,12 @@
 					if(breedNum < 1){
 						breedNum++;
 					}
+				}
+				else if(planted3 == false && breed.length == 2){
+					didBreed3 = true;
+					document.getElementById("draggable").style.left = "50px";
+					document.getElementById("draggable").style.top = "210px";
+					console.log("breed here");
 				}
 			}
 			if(breed.length ==1){
@@ -209,13 +196,6 @@
 	
 	$(function(){
 		$("#draggable").draggable();
-		$("#droppable").droppable({
-			drop:function(event,ui){
-				$(this)
-				.find("p")
-				.html("Dropped");
-			}
-		});
 	});
 	
 	
@@ -246,8 +226,9 @@
 		
 		
 		ctx.font = "30px Trebuchet";
-		ctx.fillText("Click on red pots to plant and water", canvas.width/3, 50);
-		ctx.fillText("Drag bird to pots to breed click breed button", canvas.width/3-55, 80);
+		ctx.fillText("Click on red pots to plant and grow", canvas.width/3, 50);
+		ctx.fillText("After planting, drag bird to pots to breed. Click breed button", canvas.width/3-145, 80);
+		ctx.fillText("If breeded with 2 different plants, breed at an empty pot", canvas.width/3-110, 110);
 		
 		ctx.fillStyle = "brown";
 		ctx.fillRect(0,250,120,10);
@@ -261,7 +242,7 @@
 				playStream(audioElement,e.target.value);
 		};
 		
-		//playStream(audioElement,SOUND_1);
+		playStream(audioElement,SOUND_1);
 
 		
 	}
@@ -421,6 +402,10 @@
 					plant2++;
 					drawCorrect2();
 				}
+				if(plant2 < 3 && didBreed2 == true){
+					plant2++;
+					drawCorrect5();
+				}
 		}
 		//3rd pot
 		if((mousex >= canvas.width - canvas.width/4 + 78) && (mousex < canvas.width - canvas.width/4 + 78 + 50)
@@ -431,6 +416,10 @@
 				if(plant3 < 3 && click3 == true && didBreed3 == false){
 					plant3++;
 					drawCorrect3();
+				}
+				if(plant3 < 3 && didBreed3 == true){
+					plant3++;
+					drawCorrect6();
 				}
 		}
 	}
@@ -740,7 +729,36 @@
 		{
 			if(string.charAt(i) == 'F')
 			{
-				newString += "F[F+F]F[-FF]";
+				if(breed[0] == 1 || breed[1] == 1){
+					//breed style 1 & 3
+					if(breed[0] == 3 || breed[1] == 3){
+						newString += "F[+F]F[F-FF]";
+					}
+					//breed style 1 & 2
+					else if (breed[0] == 2 || breed[1] == 2){
+						newString += "F[+FF]F[+F]F";
+					}
+				}
+				//breed 2 & 3
+				else if (breed[0] == 2 || breed[1] == 2){
+					if (breed[0] == 3 || breed[1] == 3){
+						newString += "F[F-F]FF[+FF]";
+					}
+					//breed style 1 & 2
+					else if (breed[0] == 1 || breed[1] == 1){
+						newString += "F[+FF]F[+F]F";
+					}
+				}
+				//breed 2 & 3
+				else if (breed[0] == 3 || breed[1] == 3){
+					if (breed[0] == 2 || breed[1] == 2){
+						newString += "F[F-F]FF[+FF]";
+					}
+					//breed style 1 & 3
+					else if (breed[0] == 1 || breed[1] == 1){
+						newString += "F[+F]F[F-FF]";
+					}
+				}
 			}
 			else
 			{
@@ -751,11 +769,124 @@
 		string = newString;
 	}
 	
+	
+	function rules5(){
+		newString2 = "";
+		//if(plant == true && planted == false){
+			//newString3 += "F[F-F]F[+F]FF[-F]F[+F][-FF]";
+
+		for(var i = 0; i < string2.length; i++)
+		{
+			if(string2.charAt(i) == 'F')
+			{
+				if(breed[0] == 1 || breed[1] == 1){
+					//breed style 1 & 3
+					if(breed[0] == 3 || breed[1] == 3){
+						newString2 += "F[+F]F[F-FF]";
+					}
+					//breed style 1 & 2
+					else if (breed[0] == 2 || breed[1] == 2){
+						newString2 += "F[+FF]F[+F]F";
+					}
+				}
+				//breed 2 & 3
+				else if (breed[0] == 2 || breed[1] == 2){
+					if (breed[0] == 3 || breed[1] == 3){
+						newString2 += "F[F-F]FF[+FF]";
+					}
+					//breed style 1 & 2
+					else if (breed[0] == 1 || breed[1] == 1){
+						newString2 += "F[+FF]F[+F]F";
+					}
+				}
+				//breed 2 & 3
+				else if (breed[0] == 3 || breed[1] == 3){
+					if (breed[0] == 2 || breed[1] == 2){
+						newString2 += "F[F-F]FF[+FF]";
+					}
+					//breed style 1 & 3
+					else if (breed[0] == 1 || breed[1] == 1){
+						newString2 += "F[+F]F[F-FF]";
+					}
+				}
+			}
+			else
+			{
+				newString2 += string2.charAt(i);
+			}	
+			
+		}
+		string2 = newString2;
+	}
+	
+	function rules6(){
+		newString3 = "";
+		//if(plant == true && planted == false){
+			//newString3 += "F[F-F]F[+F]FF[-F]F[+F][-FF]";
+
+		for(var i = 0; i < string3.length; i++)
+		{
+			if(string3.charAt(i) == 'F')
+			{
+				if(breed[0] == 1 || breed[1] == 1){
+					//breed style 1 & 3
+					if(breed[0] == 3 || breed[1] == 3){
+						newString3 += "F[+F]F[F-FF]";
+					}
+					//breed style 1 & 2
+					else if (breed[0] == 2 || breed[1] == 2){
+						newString3 += "F[+FF]F[+F]F";
+					}
+				}
+				//breed 2 & 3
+				else if (breed[0] == 2 || breed[1] == 2){
+					if (breed[0] == 3 || breed[1] == 3){
+						newString3 += "F[F-F]FF[+FF]";
+					}
+					//breed style 1 & 2
+					else if (breed[0] == 1 || breed[1] == 1){
+						newString3 += "F[+FF]F[+F]F";
+					}
+				}
+				//breed 2 & 3
+				else if (breed[0] == 3 || breed[1] == 3){
+					if (breed[0] == 2 || breed[1] == 2){
+						newString3 += "F[F-F]FF[+FF]";
+					}
+					//breed style 1 & 3
+					else if (breed[0] == 1 || breed[1] == 1){
+						newString3 += "F[+F]F[F-FF]";
+					}
+				}
+			}
+			else
+			{
+				newString3 += string3.charAt(i);
+			}	
+			
+		}
+		string3 = newString3;
+	}
+	
 	function drawCorrect4(){
 		for(var k = 0; k < plant1; k++){
 			rules4();
 		}
 		draw();
+	}
+	
+	function drawCorrect5(){
+		for(var k = 0; k < plant2; k++){
+			rules5();
+		}
+		draw2();
+	}
+	
+	function drawCorrect6(){
+		for(var k = 0; k < plant3; k++){
+			rules6();
+		}
+		draw3();
 	}
 	
 	
