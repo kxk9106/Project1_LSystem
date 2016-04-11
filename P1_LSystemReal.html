@@ -20,7 +20,20 @@
 <body>
 	<canvas id = "canvas"> </canvas>
 	<button id="plantButton">Plant</button>
+	<span>
+		<label for="style1">Style 1</label>
+		<input type="radio" name= "form" value= "style1" id="style1">
+	</span>
+	<span>
+		<label for="style2">Style 2</label>
+		<input type="radio" name = "form" value= "style2" checked id="style2">
+	</span>
+	<span>
+		<label for="style3">Style 3</label>
+		<input type="radio" name = "form" value= "style3" checked id="style3">
+	</span>
 	<button id="waterButton">Water</button>
+
 </body>
 
 <script>
@@ -56,6 +69,15 @@
 	
 	var vec2 = Victor;
 	
+	var style;
+	var style2;
+	var style3;
+	
+	var planted = false;
+	var planted2 = false;
+	var planted3 = false
+	
+	
 
 	
 	$("button").button();
@@ -64,13 +86,11 @@
 		.click(function(){
 			plant = true;
 			water = false;
-			//console.log(plant);
 	});
 	$('#waterButton')
 		.click(function(){
 			plant = false;
 			water = true;
-			//console.log(plant);
 	});
 	
 	
@@ -167,12 +187,33 @@
 	var string = "F";
 	var newString = "";
 	function rules(){
+	if(plant == true && planted == false){
+		if(document.getElementById('style1').checked){
+			style = 1;
+			
+		}
+		else if (document.getElementById('style2').checked){
+			style = 2;
+		}
+		else if (document.getElementById('style3').checked){
+			style = 3;
+		}
+		planted = true;
+	}
 		newString = "";
 		for(var i = 0; i < string.length; i++)
 		{
 			if(string.charAt(i) == 'F')
 			{
-				newString += "F[+FF]F[-FF][FF]";
+				if(style ==1){
+					newString += "F[+FF]F[-FF][FF]";
+				}
+				else if (style ==2){
+					newString += "F[F-F]F[+F]F";
+				}
+				else if (style ==3){
+					newString += "F[-F]F[+F][-FF]";
+				}
 			}	
 			else
 			{
@@ -205,7 +246,7 @@
   		mousey = event.y;
 
   		getMousePosition();
-  		console.log("xavier: " + xavier.pos + " Jade " + jade.pos);
+  		//console.log("xavier: " + xavier.pos + " Jade " + jade.pos);
 	}
 	
 	
@@ -332,11 +373,31 @@
 	var newString2 = "";
 	function rules2(){
 		newString2 = "";
+		if(plant == true && planted2 == false){
+			if(document.getElementById('style1').checked){
+				style2 = 1;
+			}
+			else if (document.getElementById('style2').checked){
+				style2 = 2;
+			}
+			else if (document.getElementById('style3').checked){
+				style2 = 3;
+			}
+			planted2 = true;
+		}
 		for(var i = 0; i < string2.length; i++)
 		{
 			if(string2.charAt(i) == 'F')
 			{
-				newString2 += "F[F-F]F[+F]F";
+				if(style2 ==1){
+					newString2 += "F[+FF]F[-FF][FF]";
+				}
+				else if (style2 == 2){
+					newString2 += "F[F-F]F[+F]F";
+				}
+				else if (style2 == 3){
+					newString2 += "F[-F]F[+F][-FF]";
+				}
 			}	
 			else
 			{
@@ -348,7 +409,6 @@
 	}
 	
 	function draw2(){	
-		console.log("String is: " + string2);
 		jade.pos = lastPos2;
 
 		ctx.fillStyle = "green";		
@@ -420,11 +480,31 @@
 	var newString3 = "";
 	function rules3(){
 		newString3 = "";
+		if(plant == true && planted3 == false){
+			if(document.getElementById('style1').checked){
+				style3 = 1;
+			}
+			else if (document.getElementById('style2').checked){
+				style3 = 2;
+			}
+			else if (document.getElementById('style3').checked){
+				style3 = 3;
+			}
+			planted3 = true;
+	}
 		for(var i = 0; i < string3.length; i++)
 		{
 			if(string3.charAt(i) == 'F')
 			{
-				newString3 += "F[-F]F[+F][-FF]";
+				if(style3 == 1){
+					newString3 += "F[+FF]F[-FF][FF]";
+				}
+				else if (style3 == 2){
+					newString3 += "F[F-F]F[+F]F";
+				}
+				else if (style3 == 3){
+					newString3 += "F[-F]F[+F][-FF]";
+				}
 			}	
 			else
 			{
