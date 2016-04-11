@@ -33,6 +33,14 @@
 		<input type="radio" name = "form" value= "style3" checked id="style3">
 	</span>
 	<button id="eraseButton">Hurricane</button>
+	<div id="controls">
+		<audio controls loop></audio>
+		<label>Track: 
+			<select id="trackSelect" >
+				<option value="media/Nuvole_Bianche.wav">Nuvole Bianche</option>
+				<option value="media/Qi_Phildel.mp3">Qi_Phildel</option>
+			</select>
+		</label>
 
 </body>
 
@@ -58,6 +66,10 @@
 	var click = true;
 	var click2 = true;
 	var click3 = true;
+	
+	var SOUND_1 = "media/Nuvole_Bianche.wav";
+	var SOUND_2 = "media/Qi_Phildel.mp3";
+	var audioElement;
 	
 	var j = 0;
 	var p = 0;
@@ -90,27 +102,6 @@
 	$('#eraseButton')
 		.click(function(){
 			$(".toggle").effect("shake");
-				/*ctx.fillStyle = "black";
-				ctx.fillRect(0,0,canvas.width,canvas.height);
-	
-				ctx.fillStyle = "red";
-				ctx.fillRect(canvas.width/6+70, canvas.height-60, 50,50);
-				ctx.fillRect(canvas.width - canvas.width/1.8 + 70, canvas.height-60, 50,50);
-				ctx.fillRect(canvas.width - canvas.width/4 + 70, canvas.height-60, 50,50);
-	
-				ctx.fillStyle = "#FEFCD7";
-				ctx.beginPath();
-				ctx.arc(100,75,50,0,2*Math.PI);
-				ctx.stroke();
-				ctx.fill();
-				
-				
-				planted = false;
-				planted2 = false;
-				planted3 = false;
-				lastPos = vec2(canvas.width/6+94,canvas.height-50);
-				lastPos2 = vec2(canvas.width - canvas.width/1.8 + 94,canvas.height-50);
-				lastPos3 = vec2(canvas.width - canvas.width/4 + 94,canvas.height-50);*/
 				setTimeout(function(){location.reload()},300);
 	});
 	
@@ -122,6 +113,9 @@
 		canvas.setAttribute("width",window.innerWidth-16);
 		canvas.setAttribute("height",window.innerHeight - 100);
 		audioCtx = new AudioContext();
+		
+		// get reference to <audio> element on page
+		audioElement = document.querySelector('audio');
 		
 		ctx.fillStyle = "black";
 		ctx.fillRect(0,0,canvas.width,canvas.height);
@@ -141,6 +135,12 @@
 		lastPos = vec2(canvas.width/6+94,canvas.height-50);
 		lastPos2 = vec2(canvas.width - canvas.width/1.8 + 94,canvas.height-50);
 		lastPos3 = vec2(canvas.width - canvas.width/4 + 94,canvas.height-50);
+		
+		document.querySelector("#trackSelect").onchange = function(e){
+				playStream(audioElement,e.target.value);
+		};
+		
+		playStream(audioElement,SOUND_1);
 
 		
 	}
@@ -599,7 +599,11 @@
 		draw3();
 	}
 	
-
+	function playStream(audioElement,path){
+			audioElement.src = path;
+			audioElement.play();
+			audioElement.volume = 0.5;
+	}
 
 }()
 
