@@ -16,9 +16,18 @@
 <script src="libraries/jquery-1.12.2.js"></script>
 <script src="libraries/victor-1.1.0/build/victor.js"></script>
 <script src="libraries/jquery-ui-1.11.4.custom/jquery-ui.js"></script>
+<style>
+	.position {
+         position: absolute;
+         top: 210px;
+         left: 50px;
+      }
+
+</style>
 
 <body>
 	<canvas id = "canvas" class = "toggle"> </canvas>
+	<img src='pictures/bird.png' id = "draggable" class = "position" height = "50" width = "50"/>
 	<button id="plantButton">Plant</button>
 	<span>
 		<label for="style1">Style 1</label>
@@ -32,6 +41,7 @@
 		<label for="style3">Style 3</label>
 		<input type="radio" name = "form" value= "style3" checked id="style3">
 	</span>
+	<button id="breedButton">Breed</button>
 	<button id="eraseButton">Hurricane</button>
 	<div id="controls">
 		<audio controls loop></audio>
@@ -41,6 +51,10 @@
 				<option value="media/Qi_Phildel.mp3">Qi_Phildel</option>
 			</select>
 		</label>
+		
+	<div class="ui-widget-header"> <p> Okay </p></div>
+		
+		
 
 </body>
 
@@ -67,8 +81,9 @@
 	var click2 = true;
 	var click3 = true;
 	
+	//https://www.youtube.com/watch?v=kcihcYEOeic
 	var SOUND_1 = "media/Nuvole_Bianche.wav";
-	var SOUND_2 = "media/Qi_Phildel.mp3";
+	//https://www.youtube.com/watch?v=KXKBJR1011g
 	var audioElement;
 	
 	var j = 0;
@@ -89,8 +104,13 @@
 	var planted2 = false;
 	var planted3 = false;
 	
+	var breed = [];
+	var breedNum = 0;
 	
-
+	//bird
+	var bird = new Image();
+	bird.src = 'pictures/bird.png';
+	
 	
 	$("button").button();
 	
@@ -99,12 +119,53 @@
 			plant = true;
 			water = false;
 	});
+	$('#breedButton')
+		.click(function(){
+			  	console.log("bird: " + document.getElementById("draggable").style.left);
+			  	console.log("bird: " + document.getElementById("draggable").style.top);
+			if(parseInt(document.getElementById("draggable").style.left) > 251 && parseInt(document.getElementById("draggable").style.left) < 328
+			&& parseInt(document.getElementById("draggable").style.top) > 317 && parseInt(document.getElementById("draggable").style.top) < 400){
+				console.log("Yay i breed");
+				breed[breedNum] = 1;
+				
+				$("#breedButton").text("Breed: " + breed[breedNum]);
+				if(breedNum < 1){
+					breedNum++;
+				}
+			}
+			else if (parseInt(document.getElementById("draggable").style.left) > 604 && parseInt(document.getElementById("draggable").style.left) < 693
+			&& parseInt(document.getElementById("draggable").style.top) > 317 && parseInt(document.getElementById("draggable").style.top) < 400){
+				breed[breedNum] = 2;
+				console.log("Yay i breed 2");
+				if(breedNum < 1){
+					breedNum++;
+				}
+			}
+			else if (parseInt(document.getElementById("draggable").style.left) > 1004 && parseInt(document.getElementById("draggable").style.left) < 1084
+			&& parseInt(document.getElementById("draggable").style.top) > 317 && parseInt(document.getElementById("draggable").style.top) < 400){
+				breed[breedNum] = 3;
+				console.log("Yay i breed 3");
+				if(breedNum < 1){
+					breedNum++;
+				}
+			}
+	});
 	$('#eraseButton')
 		.click(function(){
 			$(".toggle").effect("shake");
 				setTimeout(function(){location.reload()},300);
 	});
 	
+	$(function(){
+		$("#draggable").draggable();
+		$("#droppable").droppable({
+			drop:function(event,ui){
+				$(this)
+				.find("p")
+				.html("Dropped");
+			}
+		});
+	});
 	
 	
 	function setup(){
@@ -132,6 +193,14 @@
 		ctx.fill();
 		
 		
+		
+		ctx.font = "30px Trebuchet";
+		ctx.fillText("Click on red pots to plant and water", canvas.width/3, 50);
+		
+		ctx.fillStyle = "brown";
+		ctx.fillRect(0,250,120,10);
+		
+		
 		lastPos = vec2(canvas.width/6+94,canvas.height-50);
 		lastPos2 = vec2(canvas.width - canvas.width/1.8 + 94,canvas.height-50);
 		lastPos3 = vec2(canvas.width - canvas.width/4 + 94,canvas.height-50);
@@ -140,7 +209,7 @@
 				playStream(audioElement,e.target.value);
 		};
 		
-		playStream(audioElement,SOUND_1);
+		//playStream(audioElement,SOUND_1);
 
 		
 	}
@@ -604,6 +673,8 @@
 			audioElement.play();
 			audioElement.volume = 0.5;
 	}
+	
+	
 
 }()
 
