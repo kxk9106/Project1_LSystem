@@ -106,6 +106,9 @@
 	
 	var breed = [];
 	var breedNum = 0;
+	var didBreed = false;
+	var didBreed2 = false;
+	var didBreed3 = false;
 	
 	//bird
 	var bird = new Image();
@@ -134,6 +137,32 @@
 					if(breedNum < 1){
 						breedNum++;
 					}
+				}
+				else if(planted == false && breed.length == 2){
+					didBreed = true;
+					/*var string4 = "F";
+					var newString4 = "";
+					function rules(){
+						planted = true;
+						newString4 = "";
+						for(var i = 0; i < string4.length; i++)
+						{
+							if(string4.charAt(i) == 'F')
+							{
+								newString4 += "F[-F]F[+F][-FF]F[F-F]F[+F]F";
+		
+							}	
+							else
+							{
+								newString4 += string4.charAt(i);
+							}	
+						}
+	
+						string4 = newString4;
+					}*/
+					console.log("breed here");
+					
+	
 				}
 				
 			
@@ -218,7 +247,7 @@
 		
 		ctx.font = "30px Trebuchet";
 		ctx.fillText("Click on red pots to plant and water", canvas.width/3, 50);
-		ctx.fillText("Drag bird to pots to breed", canvas.width/3 + 55, 80);
+		ctx.fillText("Drag bird to pots to breed click breed button", canvas.width/3-55, 80);
 		
 		ctx.fillStyle = "brown";
 		ctx.fillRect(0,250,120,10);
@@ -370,9 +399,14 @@
 				pot1 = true;
 				pot2 = false;
 				pot3 = false;
-				if(plant1 < 3 && click == true){
+				if(plant1 < 3 && click == true && didBreed == false){
 					plant1++;
 					drawCorrect();
+				}
+				console.log("breeds: " + didBreed);
+				if(plant1 < 3 && didBreed == true){
+					plant1++;
+					drawCorrect4();
 				}
 				
 		}
@@ -383,7 +417,7 @@
 				pot1 = false;
 				pot2 = true;
 				pot3 = false;
-				if(plant2 < 3 && click2 == true){
+				if(plant2 < 3 && click2 == true & didBreed2 == false){
 					plant2++;
 					drawCorrect2();
 				}
@@ -394,7 +428,7 @@
 				pot1 = false;
 				pot2 = false;
 				pot3 = true;
-				if(plant3 < 3 && click3 == true){
+				if(plant3 < 3 && click3 == true && didBreed3 == false){
 					plant3++;
 					drawCorrect3();
 				}
@@ -695,6 +729,33 @@
 			audioElement.src = path;
 			audioElement.play();
 			audioElement.volume = 0.5;
+	}
+	
+	function rules4(){
+		newString = "";
+		//if(plant == true && planted == false){
+			//newString3 += "F[F-F]F[+F]FF[-F]F[+F][-FF]";
+
+		for(var i = 0; i < string.length; i++)
+		{
+			if(string.charAt(i) == 'F')
+			{
+				newString += "F[F+F]F[-FF]";
+			}
+			else
+			{
+				newString += string.charAt(i);
+			}	
+			
+		}
+		string = newString;
+	}
+	
+	function drawCorrect4(){
+		for(var k = 0; k < plant1; k++){
+			rules4();
+		}
+		draw();
 	}
 	
 	
