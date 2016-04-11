@@ -125,30 +125,52 @@
 			  	console.log("bird: " + document.getElementById("draggable").style.top);
 			if(parseInt(document.getElementById("draggable").style.left) > 251 && parseInt(document.getElementById("draggable").style.left) < 328
 			&& parseInt(document.getElementById("draggable").style.top) > 317 && parseInt(document.getElementById("draggable").style.top) < 400){
-				console.log("Yay i breed");
-				breed[breedNum] = 1;
 				
-				$("#breedButton").text("Breed: " + breed[breedNum]);
-				if(breedNum < 1){
-					breedNum++;
+				if(planted == true){
+					if(breed[0] != style && breed[1] != style && breed.length != 2){
+						breed[breedNum] = style;
+					}
+				
+					if(breedNum < 1){
+						breedNum++;
+					}
 				}
+				
+			
+			
 			}
 			else if (parseInt(document.getElementById("draggable").style.left) > 604 && parseInt(document.getElementById("draggable").style.left) < 693
 			&& parseInt(document.getElementById("draggable").style.top) > 317 && parseInt(document.getElementById("draggable").style.top) < 400){
-				breed[breedNum] = 2;
-				console.log("Yay i breed 2");
-				if(breedNum < 1){
-					breedNum++;
+				if(planted2 == true){
+					if(breed[0] != style2 && breed[1] != style2 && breed.length != 2){
+						breed[breedNum] = style2;
+					}
+				
+					if(breedNum < 1){
+						breedNum++;
+					}
 				}
 			}
 			else if (parseInt(document.getElementById("draggable").style.left) > 1004 && parseInt(document.getElementById("draggable").style.left) < 1084
 			&& parseInt(document.getElementById("draggable").style.top) > 317 && parseInt(document.getElementById("draggable").style.top) < 400){
-				breed[breedNum] = 3;
-				console.log("Yay i breed 3");
-				if(breedNum < 1){
-					breedNum++;
+				if(planted3 == true){
+					if(breed[0] != style3 && breed[1] != style3 && breed.length != 2){
+						breed[breedNum] = style3;
+					}
+				
+					if(breedNum < 1){
+						breedNum++;
+					}
 				}
 			}
+			if(breed.length ==1){
+				$("#breedButton").text("Breed: " + breed[0]);
+			}
+			else if(breed.length ==2){
+				$("#breedButton").text("Breed: " + breed[0] + " + " + breed[1]);
+			}
+			
+			
 	});
 	$('#eraseButton')
 		.click(function(){
@@ -196,6 +218,7 @@
 		
 		ctx.font = "30px Trebuchet";
 		ctx.fillText("Click on red pots to plant and water", canvas.width/3, 50);
+		ctx.fillText("Drag bird to pots to breed", canvas.width/3 + 55, 80);
 		
 		ctx.fillStyle = "brown";
 		ctx.fillRect(0,250,120,10);
