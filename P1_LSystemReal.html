@@ -75,7 +75,7 @@
 	
 	var planted = false;
 	var planted2 = false;
-	var planted3 = false
+	var planted3 = false;
 	
 	
 
@@ -90,7 +90,7 @@
 	$('#eraseButton')
 		.click(function(){
 			$(".toggle").effect("shake");
-				ctx.fillStyle = "black";
+				/*ctx.fillStyle = "black";
 				ctx.fillRect(0,0,canvas.width,canvas.height);
 	
 				ctx.fillStyle = "red";
@@ -103,6 +103,15 @@
 				ctx.arc(100,75,50,0,2*Math.PI);
 				ctx.stroke();
 				ctx.fill();
+				
+				
+				planted = false;
+				planted2 = false;
+				planted3 = false;
+				lastPos = vec2(canvas.width/6+94,canvas.height-50);
+				lastPos2 = vec2(canvas.width - canvas.width/1.8 + 94,canvas.height-50);
+				lastPos3 = vec2(canvas.width - canvas.width/4 + 94,canvas.height-50);*/
+				setTimeout(function(){location.reload()},300);
 	});
 	
 	
