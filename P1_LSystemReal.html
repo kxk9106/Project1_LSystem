@@ -40,15 +40,19 @@
 	
 	var plant1 = 0;
 	var plant2 = 0;
+	var plant3 = 0;
 	
 	var click = true;
 	var click2 = true;
+	var click3 = true;
 	
 	var j = 0;
 	var p = 0;
+	var t = 0;
 	
 	var lastPos;
 	var lastPos2;
+	var lastPos3;
 	
 	var vec2 = Victor;
 	
@@ -95,6 +99,7 @@
 		
 		lastPos = vec2(canvas.width/6+94,canvas.height-50);
 		lastPos2 = vec2(canvas.width - canvas.width/1.8 + 94,canvas.height-50);
+		lastPos3 = vec2(canvas.width - canvas.width/4 + 94,canvas.height-50);
 
 		
 	}
@@ -205,7 +210,6 @@
 	
 	
 	function getMousePosition(event){
-		//console.log("X: " + mousex + " Y: " + mousey);
 		
 		//1st pot
 		if((mousex >= canvas.width/6+78) & (mousex < canvas.width/6 + 78 + 50)
@@ -213,10 +217,8 @@
 				pot1 = true;
 				pot2 = false;
 				pot3 = false;
-				//console.log("Pot1: " + pot1 + " Pot2: " + pot2 + " Pot3: " + pot3);
 				if(plant1 < 3 && click == true){
 					plant1++;
-					//console.log("Plant num: " + plant1);
 					drawCorrect();
 				}
 				
@@ -228,12 +230,9 @@
 				pot1 = false;
 				pot2 = true;
 				pot3 = false;
-				//console.log("Pot1: " + pot1 + " Pot2: " + pot2 + " Pot3: " + pot3);
 				if(plant2 < 3 && click2 == true){
 					plant2++;
-					//console.log("Plant num: " + plant2);
 					drawCorrect2();
-					console.log("I drew plant 2");
 				}
 		}
 		//3rd pot
@@ -242,7 +241,10 @@
 				pot1 = false;
 				pot2 = false;
 				pot3 = true;
-				//console.log("Pot1: " + pot1 + " Pot2: " + pot2 + " Pot3: " + pot3);
+				if(plant3 < 3 && click3 == true){
+					plant3++;
+					drawCorrect3();
+				}
 		}
 	}
 	
@@ -252,8 +254,7 @@
 	function draw(){	
 		
 		xavier.pos = lastPos;
-		//console.log("xavier: " + xavier.pos);
-		//console.log("Last: " +lastPos);
+
 		ctx.fillStyle = "green";		
 
 		
@@ -262,7 +263,6 @@
 		ctx.translate(0,0);
 		ctx.rotate(timeDeg);
 		
-		//console.log(string.length);
 		
 		                    
 		
@@ -350,8 +350,7 @@
 	function draw2(){	
 		console.log("String is: " + string2);
 		jade.pos = lastPos2;
-		//console.log("jade: " + jade.pos);
-		//console.log("Last: " +lastPos2);
+
 		ctx.fillStyle = "green";		
 
 		
@@ -360,10 +359,7 @@
 		ctx.translate(0,0);
 		ctx.rotate(timeDeg);
 		
-		//console.log(string2.length);
-		
-		                    
-		
+	
 		function myLoop2 () {           
 			setTimeout(function () {    
 				if(string2.charAt(p) =='F')
@@ -414,6 +410,93 @@
 			rules2();
 		}
 		draw2();
+	}
+	
+	
+	
+	//plant3 stuff
+	window.kristen = new Turtle(ctx, 250,window.innerHeight);
+	var string3 = "F";
+	var newString3 = "";
+	function rules3(){
+		newString3 = "";
+		for(var i = 0; i < string3.length; i++)
+		{
+			if(string3.charAt(i) == 'F')
+			{
+				newString3 += "F[-F]F[+F][-FF]";
+			}	
+			else
+			{
+				newString3 += string3.charAt(i);
+			}	
+			
+		}
+		string3 = newString3;
+	}
+	
+	function draw3(){	
+		kristen.pos = lastPos3;
+
+		ctx.fillStyle = "green";		
+
+		
+		ctx.save();
+		timeDeg = degToRad(time);
+		ctx.translate(0,0);
+		ctx.rotate(timeDeg);
+		
+	
+		function myLoop3 () {           
+			setTimeout(function () {    
+				if(string3.charAt(t) =='F')
+				{
+					ctx.strokeStyle = 'rgb(' + (Math.floor(Math.random() * 256)) + ',' + (Math.floor(Math.random() 
+					* 256)) + ',' + (Math.floor(Math.random() * 256)) + ')';
+					kristen.move(15)
+				}
+				else if(string3.charAt(t) =='+')
+				{
+	
+					kristen.rotate(-theta);
+				}
+				else if(string3.charAt(t) == '-')
+				{
+					kristen.rotate(theta);
+				}
+				else if(string3.charAt(t) == '[')
+				{
+					kristen.push(kristen.pos.clone());
+				}
+				else if(string3.charAt(t) == ']')
+				{
+					kristen.pop();
+				}  
+				       
+				t++;                   
+				if (t < string3.length) {          
+					myLoop3();
+					click3 = false;
+				}
+				if(t == string3.length){
+					click3 = true;
+				}
+			}, 5)
+			lastPos3 = kristen.pos;
+		}
+
+		myLoop3(); 
+
+		
+		ctx.restore();
+	}
+	
+	
+	function drawCorrect3(){
+		for(var k = 0; k < plant3; k++){
+			rules3();
+		}
+		draw3();
 	}
 	
 
