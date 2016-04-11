@@ -39,12 +39,16 @@
 	var pot3 = false;
 	
 	var plant1 = 0;
-	var plantGen1 = [];
+	var plant2 = 0;
+	
 	var click = true;
+	var click2 = true;
 	
 	var j = 0;
+	var p = 0;
 	
 	var lastPos;
+	var lastPos2;
 	
 	var vec2 = Victor;
 	
@@ -56,13 +60,13 @@
 		.click(function(){
 			plant = true;
 			water = false;
-			console.log(plant);
+			//console.log(plant);
 	});
 	$('#waterButton')
 		.click(function(){
 			plant = false;
 			water = true;
-			console.log(plant);
+			//console.log(plant);
 	});
 	
 	
@@ -90,6 +94,8 @@
 		
 		
 		lastPos = vec2(canvas.width/6+94,canvas.height-50);
+		lastPos2 = vec2(canvas.width - canvas.width/1.8 + 94,canvas.height-50);
+
 		
 	}
 	setup();
@@ -144,11 +150,15 @@
 		this.canvas = canvas
 		this.canvas.moveTo(this.pos.x,this.pos.y)
 	}
-	window.xavier = new Turtle(ctx, 250,window.innerHeight);
+	
 	
 	var degToRad = function( deg ) {
       return deg * Math.PI / 180
     }
+	
+	
+	//plant 1 rules
+	window.xavier = new Turtle(ctx, 250,window.innerHeight);
 	var string = "F";
 	var newString = "";
 	function rules(){
@@ -190,12 +200,12 @@
   		mousey = event.y;
 
   		getMousePosition();
-  		console.log(plantGen1[0]);
+  		console.log("xavier: " + xavier.pos + " Jade " + jade.pos);
 	}
 	
 	
 	function getMousePosition(event){
-		console.log("X: " + mousex + " Y: " + mousey);
+		//console.log("X: " + mousex + " Y: " + mousey);
 		
 		//1st pot
 		if((mousex >= canvas.width/6+78) & (mousex < canvas.width/6 + 78 + 50)
@@ -203,10 +213,10 @@
 				pot1 = true;
 				pot2 = false;
 				pot3 = false;
-				console.log("Pot1: " + pot1 + " Pot2: " + pot2 + " Pot3: " + pot3);
+				//console.log("Pot1: " + pot1 + " Pot2: " + pot2 + " Pot3: " + pot3);
 				if(plant1 < 3 && click == true){
 					plant1++;
-					console.log("Plant num: " + plant1);
+					//console.log("Plant num: " + plant1);
 					drawCorrect();
 				}
 				
@@ -218,7 +228,13 @@
 				pot1 = false;
 				pot2 = true;
 				pot3 = false;
-				console.log("Pot1: " + pot1 + " Pot2: " + pot2 + " Pot3: " + pot3);
+				//console.log("Pot1: " + pot1 + " Pot2: " + pot2 + " Pot3: " + pot3);
+				if(plant2 < 3 && click2 == true){
+					plant2++;
+					//console.log("Plant num: " + plant2);
+					drawCorrect2();
+					console.log("I drew plant 2");
+				}
 		}
 		//3rd pot
 		if((mousex >= canvas.width - canvas.width/4 + 78) && (mousex < canvas.width - canvas.width/4 + 78 + 50)
@@ -226,7 +242,7 @@
 				pot1 = false;
 				pot2 = false;
 				pot3 = true;
-				console.log("Pot1: " + pot1 + " Pot2: " + pot2 + " Pot3: " + pot3);
+				//console.log("Pot1: " + pot1 + " Pot2: " + pot2 + " Pot3: " + pot3);
 		}
 	}
 	
@@ -236,8 +252,8 @@
 	function draw(){	
 		
 		xavier.pos = lastPos;
-		console.log("Xavier: " + xavier.pos);
-		console.log("Last: " +lastPos);
+		//console.log("xavier: " + xavier.pos);
+		//console.log("Last: " +lastPos);
 		ctx.fillStyle = "green";		
 
 		
@@ -246,7 +262,7 @@
 		ctx.translate(0,0);
 		ctx.rotate(timeDeg);
 		
-		console.log(string.length);
+		//console.log(string.length);
 		
 		                    
 		
@@ -294,12 +310,113 @@
 		ctx.restore();
 	}
 	
+	
+	
 	function drawCorrect(){
 		for(var k = 0; k < plant1; k++){
 			rules();
 		}
 		draw();
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	//plant 2 stuff
+	window.jade = new Turtle(ctx, 250,window.innerHeight);
+	var string2 = "F";
+	var newString2 = "";
+	function rules2(){
+		newString2 = "";
+		for(var i = 0; i < string2.length; i++)
+		{
+			if(string2.charAt(i) == 'F')
+			{
+				newString2 += "F[F-F]F[+F]F";
+			}	
+			else
+			{
+				newString2 += string2.charAt(i);
+			}	
+			
+		}
+		string2 = newString2;
+	}
+	
+	function draw2(){	
+		console.log("String is: " + string2);
+		jade.pos = lastPos2;
+		//console.log("jade: " + jade.pos);
+		//console.log("Last: " +lastPos2);
+		ctx.fillStyle = "green";		
+
+		
+		ctx.save();
+		timeDeg = degToRad(time);
+		ctx.translate(0,0);
+		ctx.rotate(timeDeg);
+		
+		//console.log(string2.length);
+		
+		                    
+		
+		function myLoop2 () {           
+			setTimeout(function () {    
+				if(string2.charAt(p) =='F')
+				{
+					ctx.strokeStyle = 'rgb(' + (Math.floor(Math.random() * 256)) + ',' + (Math.floor(Math.random() 
+					* 256)) + ',' + (Math.floor(Math.random() * 256)) + ')';
+					jade.move(15)
+				}
+				else if(string2.charAt(p) =='+')
+				{
+	
+					jade.rotate(-theta);
+				}
+				else if(string2.charAt(p) == '-')
+				{
+					jade.rotate(theta);
+				}
+				else if(string2.charAt(p) == '[')
+				{
+					jade.push(jade.pos.clone());
+				}
+				else if(string2.charAt(p) == ']')
+				{
+					jade.pop();
+				}  
+				       
+				p++;                   
+				if (j < string2.length) {          
+					myLoop2();
+					click2 = false;
+				}
+				if(j == string2.length){
+					click2 = true;
+				}
+			}, 5)
+			lastPos2 = jade.pos;
+		}
+
+		myLoop2(); 
+
+		
+		ctx.restore();
+	}
+	
+	
+	function drawCorrect2(){
+		for(var k = 0; k < plant2; k++){
+			rules2();
+		}
+		draw2();
+	}
+	
+
 
 }()
 
