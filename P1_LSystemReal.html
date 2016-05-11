@@ -4,12 +4,8 @@
 	<meta charset="utf-8" />
 	<title>Project1LSystem</title>
 	<meta name="generator" content="BBEdit 11.1" />
-	<link href="libraries/jquery-ui-1.11.4.custom/jquery-ui.css" rel="stylesheet">
-	<link href="libraries/jquery-ui-1.11.4.custom/jquery-ui.css" rel="stylesheet">
 	<link href="libraries/jquery-ui-1.11.4.custom/jquery-ui.min.css">
-	<link href ="libraries/jquery-ui-1.11.4.custom/jquery-ui.structure.css">
 	<link href="libraries/jquery-ui-1.11.4.custom/jquery-ui.structure.min.css">
-	<link href="libraries/jquery-ui-1.11.4.custom/jquery-ui.theme.css">
 	<link href="libraries/jquery-ui-1.11.4.custom/jquery-ui.theme.min.css">
 
 </head>
@@ -56,57 +52,57 @@
 <script>
 !function(){
 	'use strict'
-	var count = 2;
-	var canvas;
-	var ctx;
-	var audioCtx;
-	var plant = true;
-	var water = false;
+	let count = 2;
+	let canvas;
+	let ctx;
+	let audioCtx;
+	let plant = true;
+	let water = false;
 	
 	
-	var pot1 = false;
-	var pot2 = false;
-	var pot3 = false;
+	let pot1 = false;
+	let pot2 = false;
+	let pot3 = false;
 	
-	var plant1 = 0;
-	var plant2 = 0;
-	var plant3 = 0;
+	let plant1 = 0;
+	let plant2 = 0;
+	let plant3 = 0;
 	
-	var click = true;
-	var click2 = true;
-	var click3 = true;
+	let click = true;
+	let click2 = true;
+	let click3 = true;
 	
 	//https://www.youtube.com/watch?v=kcihcYEOeic
-	var SOUND_1 = "media/Nuvole_Bianche.wav";
+	let SOUND_1 = "media/Nuvole_Bianche.wav";
 	//https://www.youtube.com/watch?v=KXKBJR1011g
-	var audioElement;
+	let audioElement;
 	
-	var j = 0;
-	var p = 0;
-	var t = 0;
+	let j = 0;
+	let p = 0;
+	let t = 0;
 	
-	var lastPos;
-	var lastPos2;
-	var lastPos3;
+	let lastPos;
+	let lastPos2;
+	let lastPos3;
 	
-	var vec2 = Victor;
+	let vec2 = Victor;
 	
-	var style;
-	var style2;
-	var style3;
+	let style;
+	let style2;
+	let style3;
 	
-	var planted = false;
-	var planted2 = false;
-	var planted3 = false;
+	let planted = false;
+	let planted2 = false;
+	let planted3 = false;
 	
-	var breed = [];
-	var breedNum = 0;
-	var didBreed = false;
-	var didBreed2 = false;
-	var didBreed3 = false;
+	let breed = [];
+	let breedNum = 0;
+	let didBreed = false;
+	let didBreed2 = false;
+	let didBreed3 = false;
 	
 	//bird
-	var bird = new Image();
+	let bird = new Image();
 	bird.src = 'pictures/bird.png';
 	
 	
@@ -300,15 +296,15 @@
 	}
 	
 	
-	var degToRad = function( deg ) {
+	let degToRad = function( deg ) {
       return deg * Math.PI / 180
     }
 	
 	
 	//plant 1 rules
 	window.xavier = new Turtle(ctx, 250,window.innerHeight);
-	var string = "F";
-	var newString = "";
+	let string = "F";
+	let newString = "";
 	function rules(){
 	if(plant == true && planted == false){
 		if(document.getElementById('style1').checked){
@@ -324,7 +320,7 @@
 		planted = true;
 	}
 		newString = "";
-		for(var i = 0; i < string.length; i++)
+		for(let i = 0; i < string.length; i++)
 		{
 			if(string.charAt(i) == 'F')
 			{
@@ -347,20 +343,20 @@
 		string = newString;
 	}
 	
-	var thetaDeg = 20;
-	var theta = 2;
+	let thetaDeg = 20;
+	let theta = 2;
 	
 		
 	theta = degToRad(thetaDeg);
 		
 
-	var time = 0;
-	var timeDeg;
-	var right = true;
+	let time = 0;
+	let timeDeg;
+	let right = true;
 	
-	var mousex;
-	var mousey;
-	var event;
+	let mousex;
+	let mousey;
+	let event;
 	
 	
 
@@ -489,7 +485,7 @@
 	
 	
 	function drawCorrect(){
-		for(var k = 0; k < plant1; k++){
+		for(let k = 0; k < plant1; k++){
 			rules();
 		}
 		draw();
@@ -504,8 +500,8 @@
 	
 	//plant 2 stuff
 	window.jade = new Turtle(ctx, 250,window.innerHeight);
-	var string2 = "F";
-	var newString2 = "";
+	let string2 = "F";
+	let newString2 = "";
 	function rules2(){
 		newString2 = "";
 		if(plant == true && planted2 == false){
@@ -520,7 +516,7 @@
 			}
 			planted2 = true;
 		}
-		for(var i = 0; i < string2.length; i++)
+		for(let i = 0; i < string2.length; i++)
 		{
 			if(string2.charAt(i) == 'F')
 			{
@@ -601,7 +597,7 @@
 	
 	
 	function drawCorrect2(){
-		for(var k = 0; k < plant2; k++){
+		for(let k = 0; k < plant2; k++){
 			rules2();
 		}
 		draw2();
@@ -611,8 +607,8 @@
 	
 	//plant3 stuff
 	window.kristen = new Turtle(ctx, 250,window.innerHeight);
-	var string3 = "F";
-	var newString3 = "";
+	let string3 = "F";
+	let newString3 = "";
 	function rules3(){
 		newString3 = "";
 		if(plant == true && planted3 == false){
@@ -627,7 +623,7 @@
 			}
 			planted3 = true;
 	}
-		for(var i = 0; i < string3.length; i++)
+		for(let i = 0; i < string3.length; i++)
 		{
 			if(string3.charAt(i) == 'F')
 			{
@@ -708,7 +704,7 @@
 	
 	
 	function drawCorrect3(){
-		for(var k = 0; k < plant3; k++){
+		for(let k = 0; k < plant3; k++){
 			rules3();
 		}
 		draw3();
@@ -725,7 +721,7 @@
 		//if(plant == true && planted == false){
 			//newString3 += "F[F-F]F[+F]FF[-F]F[+F][-FF]";
 
-		for(var i = 0; i < string.length; i++)
+		for(let i = 0; i < string.length; i++)
 		{
 			if(string.charAt(i) == 'F')
 			{
@@ -775,7 +771,7 @@
 		//if(plant == true && planted == false){
 			//newString3 += "F[F-F]F[+F]FF[-F]F[+F][-FF]";
 
-		for(var i = 0; i < string2.length; i++)
+		for(let i = 0; i < string2.length; i++)
 		{
 			if(string2.charAt(i) == 'F')
 			{
@@ -824,7 +820,7 @@
 		//if(plant == true && planted == false){
 			//newString3 += "F[F-F]F[+F]FF[-F]F[+F][-FF]";
 
-		for(var i = 0; i < string3.length; i++)
+		for(let i = 0; i < string3.length; i++)
 		{
 			if(string3.charAt(i) == 'F')
 			{
@@ -869,21 +865,21 @@
 	}
 	
 	function drawCorrect4(){
-		for(var k = 0; k < plant1; k++){
+		for(let k = 0; k < plant1; k++){
 			rules4();
 		}
 		draw();
 	}
 	
 	function drawCorrect5(){
-		for(var k = 0; k < plant2; k++){
+		for(let k = 0; k < plant2; k++){
 			rules5();
 		}
 		draw2();
 	}
 	
 	function drawCorrect6(){
-		for(var k = 0; k < plant3; k++){
+		for(let k = 0; k < plant3; k++){
 			rules6();
 		}
 		draw3();
