@@ -21,12 +21,13 @@
 	//Win Canvas
 	let canvasWin;
 	let ctxWin;
+
 	
-	let audioCtx;
+	//buttons
 	let plant = true;
 	let water = false;
 	
-	
+	//if the pot was clicked
 	let pot1 = false;
 	let pot2 = false;
 	let pot3 = false;
@@ -39,6 +40,8 @@
 	let click2 = true;
 	let click3 = true;
 	
+	//audio
+	let audioCtx;
 	//https://www.youtube.com/watch?v=kcihcYEOeic
 	let SOUND_1 = "media/Nuvole_Bianche.wav";
 	//https://www.youtube.com/watch?v=KXKBJR1011g
@@ -48,16 +51,20 @@
 	let p = 0;
 	let t = 0;
 	
+	//will continue to draw in the correct place
+	//for each plant
 	let lastPos;
 	let lastPos2;
 	let lastPos3;
 	
 	let vec2 = Victor;
 	
+	//which plant to draw
 	let style;
 	let style2;
 	let style3;
 	
+	//for breeding if there is a plant to breed
 	let planted = false;
 	let planted2 = false;
 	let planted3 = false;
@@ -71,6 +78,11 @@
 	//bird
 	let bird = new Image();
 	bird.src = 'pictures/bird.png';
+	
+	
+	//image stuff plants
+	let imageP;
+	let images;
 	
 	
 	$("button").button();
@@ -169,7 +181,7 @@
 		canvas.setAttribute("width",window.innerWidth);
 		canvas.setAttribute("height",window.innerHeight - 100);
 		
-		/*
+		
 		//plant1 canvas
 		canvasP1 = document.getElementById("canvasP1");
 		ctx1 = canvasP1.getContext("2d");
@@ -194,7 +206,7 @@
 		canvasWin = document.getElementById("canvasWin");
 		ctxWin = canvasWin.getContext("2d");
 		canvasWin.setAttribute("width",window.innerWidth);
-		canvasWin.setAttribute("height",window.innerHeight/7);*/
+		canvasWin.setAttribute("height",window.innerHeight/7);
 		
 		
 		audioCtx = new AudioContext();
@@ -205,32 +217,36 @@
 		ctx.fillStyle = "blue";
 		ctx.fillRect(0,0,canvas.width,canvas.height);
 		
-		/*//plant1 background
+		///plant1 background
 		ctx1.fillStyle = "green";
-		//ctx1.fillRect(0,0,canvasP1.width,canvasP1.height);
+		ctx1.fillRect(0,0,canvasP1.width,canvasP1.height);
+		
+		
 		
 		//plant2 background
 		ctx2.fillStyle = "pink";
-		//ctx2.fillRect(0,0,canvasP2.width,canvasP2.height);
+		ctx2.fillRect(0,0,canvasP2.width,canvasP2.height);
 		
 		//plant3 background
 		ctx3.fillStyle = "purple";
-		//ctx3.fillRect(0,0,canvasP3.width,canvasP3.height);
+		ctx3.fillRect(0,0,canvasP3.width,canvasP3.height);
 		
 		//win background
 		ctxWin.fillStyle = "yellow";
-		//ctxWin.fillRect(140,0,canvasWin.width,canvasWin.height);
+		ctxWin.fillRect(140,0,canvasWin.width,canvasWin.height);
 		
 		
-		
-		
-		//ctx1.fillStyle = "red";
-		//ctx2.fillStyle = "orange";
-		//ctx3.fillStyle = "red";*/
+
+
 		ctx.fillStyle = "red";
-		ctx.fillRect(canvas.width/6+70, canvas.height-60, 50,50);
-		ctx.fillRect(canvas.width - canvas.width/1.8 + 70, canvas.height-60, 50,50);
-		ctx.fillRect(canvas.width - canvas.width/4 + 70, canvas.height-60, 50,50);
+		ctx1.fillStyle = "red";
+		ctx2.fillStyle = "red";
+		ctx3.fillStyle = "red";
+		
+		
+		ctx1.fillRect(canvasP1.width/2 - 25, canvasP1.height-60, 50,50);
+		ctx2.fillRect(canvasP2.width/2 -25, canvasP2.height-60, 50,50);
+		ctx3.fillRect(canvasP3.width/2 -25, canvasP3.height-60, 50,50);
 		
 		ctx.fillStyle = "#FEFCD7";
 		ctx.beginPath();
@@ -240,19 +256,19 @@
 		
 		
 		
-		ctx.font = "30px Trebuchet";
-		ctx.fillText("Click on red pots to plant and grow", canvas.width/3, 50);
-		ctx.fillText("After planting, drag bird to pots to breed. Click breed button", canvas.width/3-145, 80);
-		ctx.fillText("If breeded with 2 different plants, breed at an empty pot", canvas.width/3-110, 110);
+		//ctx.font = "30px Trebuchet";
+		//ctx.fillText("Click on red pots to plant and grow", canvas.width/3, 50);
+		//ctx.fillText("After planting, drag bird to pots to breed. Click breed button", canvas.width/3-145, 80);
+		//ctx.fillText("If breeded with 2 different plants, breed at an empty pot", canvas.width/3-110, 110);
 		
 		//branch
 		ctx.fillStyle = "brown";
 		ctx.fillRect(0,250,120,10);
 		
 		
-		lastPos = vec2(canvas.width/6+94,canvas.height-50);
-		lastPos2 = vec2(canvas.width - canvas.width/1.8 + 94,canvas.height-50);
-		lastPos3 = vec2(canvas.width - canvas.width/4 + 94,canvas.height-50);
+		lastPos = vec2(canvasP1.width/2,canvas.height-60);
+		lastPos2 = vec2(canvasP2.width/2,canvas.height-60);
+		lastPos3 = vec2(canvasP3.width/2,canvas.height-60);
 		
 		document.querySelector("#trackSelect").onchange = function(e){
 				playStream(audioElement,e.target.value);
@@ -322,7 +338,7 @@
 	
 	
 	//plant 1 rules
-	window.xavier = new Turtle(ctx, 250,window.innerHeight);
+	window.xavier = new Turtle(ctx1, 250,window.innerHeight);
 	let string = "F";
 	let newString = "";
 	function rules(){
@@ -378,15 +394,40 @@
 	let mousey;
 	let event;
 	
+	let mousex2;
+	let mousey2;
+	let event2;
+	
+	let mousex3;
+	let mousey3;
+	let event3;
+	
+	
 	
 
-	canvas.onmousedown = function(event){
-		mousex = event.x;
-  		mousey = event.y;
+	canvasP1.onmousedown = function(event){
+		mousex = event.offsetX
+  		mousey = event.offsetY;
+		console.log("mouse: " + mousex + ", " + mousey + "\n");
 
   		getMousePosition();
 	}
 	
+	canvasP2.onmousedown = function(event2){
+		mousex2 = event2.offsetX
+  		mousey2 = event2.offsetY;
+		console.log("mouse: " + mousex + ", " + mousey + "\n");
+
+  		getMousePosition2();
+	}
+	
+		canvasP3.onmousedown = function(event3){
+		mousex3 = event3.offsetX
+  		mousey3 = event3.offsetY;
+		console.log("mouse: " + mousex + ", " + mousey + "\n");
+
+  		getMousePosition3();
+	}
 	/*window.onresize = function(){
 		canvas.setAttribute("width",window.innerWidth);
 		canvas.setAttribute("height",window.innerHeight - 100);
@@ -396,14 +437,15 @@
 	
 	
 	function getMousePosition(event){
-	
+			console.log("canvas: " + (canvasP1.width/2-25) + ", " + (canvasP1.width/2 + 25));
+
 		//1st pot
-		if((mousex >= canvas.width/6+70) & (mousex < canvas.width/6 + 120)
-		&& (mousey >= canvas.height-60) && (mousey < canvas.height -10)){
+		if((mousex >= canvasP1.width/2-25) & (mousex < canvasP1.width/2 + 25)
+		&& (mousey >= canvasP1.height-60) && (mousey < canvasP1.height -10)){
 				pot1 = true;
 				pot2 = false;
 				pot3 = false;
-					console.log("Mouse: " + mousex + ", " + mousey + "Canvas: " + canvas.width/6+62 + ", " + canvas.width/6 + 112);
+					//console.log("Mouse: " + mousex + ", " + mousey + "Canvas: " + canvas.width/6+62 + ", " + canvas.width/6 + 112);
 
 				if(plant1 < 3 && click == true && didBreed == false){
 					plant1++;
@@ -416,10 +458,13 @@
 				}
 				
 		}
+	}
+	function getMousePosition2(event2){
+			console.log("canvas: " + (canvasP1.width/2-25) + ", " + (canvasP1.width/2 + 25));
 		
 		//2nd pot
-		if((mousex >= canvas.width - canvas.width/1.8 + 70) && (mousex < canvas.width - canvas.width/1.8 + 120)
-		&& (mousey >= canvas.height-60) && (mousey < canvas.height-10)){
+		if((mousex2 >= canvasP2.width/2 -25) && (mousex2 < canvasP2.width/2+25)
+		&& (mousey2 >= canvasP2.height-60) && (mousey2 < canvasP2.height-10)){
 				pot1 = false;
 				pot2 = true;
 				pot3 = false;
@@ -432,9 +477,12 @@
 					drawCorrect5();
 				}
 		}
+	}
+	function getMousePosition3(event3){
+			console.log("canvas: " + (canvasP1.width/2-25) + ", " + (canvasP1.width/2 + 25));
 		//3rd pot
-		if((mousex >= canvas.width - canvas.width/4 + 70) && (mousex < canvas.width - canvas.width/4 + 120)
-		&& (mousey >= canvas.height-60) && (mousey < canvas.height-10)){
+		if((mousex3 >= canvasP3.width/2 -25) && (mousex3 < canvasP3.width/2 +25)
+		&& (mousey3 >= canvasP3.height-60) && (mousey3 < canvasP3.height-10)){
 				pot1 = false;
 				pot2 = false;
 				pot3 = true;
@@ -456,13 +504,13 @@
 		
 		xavier.pos = lastPos;
 
-		ctx.fillStyle = "green";		
+		ctx1.fillStyle = "green";		
 
 		
-		ctx.save();
+		ctx1.save();
 		timeDeg = degToRad(time);
-		ctx.translate(0,0);
-		ctx.rotate(timeDeg);
+		ctx1.translate(0,0);
+		ctx1.rotate(timeDeg);
 		
 		
 		                    
@@ -471,7 +519,7 @@
 			setTimeout(function () {    
 				if(string.charAt(j) =='F')
 				{
-					ctx.strokeStyle = 'rgb(' + (Math.floor(Math.random() * 256)) + ',' + (Math.floor(Math.random() 
+					ctx1.strokeStyle = 'rgb(' + (Math.floor(Math.random() * 256)) + ',' + (Math.floor(Math.random() 
 					* 256)) + ',' + (Math.floor(Math.random() * 256)) + ')';
 					xavier.move(15)
 				}
@@ -508,7 +556,7 @@
 		myLoop(); 
 
 		
-		ctx.restore();
+		ctx1.restore();
 	}
 	
 	
@@ -528,7 +576,7 @@
 	
 	
 	//plant 2 stuff
-	window.jade = new Turtle(ctx, 250,window.innerHeight);
+	window.jade = new Turtle(ctx2, 250,window.innerHeight);
 	let string2 = "F";
 	let newString2 = "";
 	function rules2(){
@@ -570,21 +618,22 @@
 	
 	function draw2(){	
 		jade.pos = lastPos2;
+		getImage();
 
-		ctx.fillStyle = "green";		
+		ctx2.fillStyle = "green";		
 
 		
-		ctx.save();
+		ctx2.save();
 		timeDeg = degToRad(time);
-		ctx.translate(0,0);
-		ctx.rotate(timeDeg);
+		ctx2.translate(0,0);
+		ctx2.rotate(timeDeg);
 		
 	
 		function myLoop2 () {           
 			setTimeout(function () {    
 				if(string2.charAt(p) =='F')
 				{
-					ctx.strokeStyle = 'rgb(' + (Math.floor(Math.random() * 256)) + ',' + (Math.floor(Math.random() 
+					ctx2.strokeStyle = 'rgb(' + (Math.floor(Math.random() * 256)) + ',' + (Math.floor(Math.random() 
 					* 256)) + ',' + (Math.floor(Math.random() * 256)) + ')';
 					jade.move(15)
 				}
@@ -621,7 +670,7 @@
 		myLoop2(); 
 
 		
-		ctx.restore();
+		ctx2.restore();
 	}
 	
 	
@@ -635,7 +684,7 @@
 	
 	
 	//plant3 stuff
-	window.kristen = new Turtle(ctx, 250,window.innerHeight);
+	window.kristen = new Turtle(ctx3, 250,window.innerHeight);
 	let string3 = "F";
 	let newString3 = "";
 	function rules3(){
@@ -678,20 +727,20 @@
 	function draw3(){	
 		kristen.pos = lastPos3;
 
-		ctx.fillStyle = "green";		
+		ctx3.fillStyle = "green";		
 
 		
-		ctx.save();
+		ctx3.save();
 		timeDeg = degToRad(time);
-		ctx.translate(0,0);
-		ctx.rotate(timeDeg);
+		ctx3.translate(0,0);
+		ctx3.rotate(timeDeg);
 		
 	
 		function myLoop3 () {           
 			setTimeout(function () {    
 				if(string3.charAt(t) =='F')
 				{
-					ctx.strokeStyle = 'rgb(' + (Math.floor(Math.random() * 256)) + ',' + (Math.floor(Math.random() 
+					ctx3.strokeStyle = 'rgb(' + (Math.floor(Math.random() * 256)) + ',' + (Math.floor(Math.random() 
 					* 256)) + ',' + (Math.floor(Math.random() * 256)) + ')';
 					kristen.move(15)
 				}
@@ -728,7 +777,7 @@
 		myLoop3(); 
 
 		
-		ctx.restore();
+		ctx3.restore();
 	}
 	
 	
@@ -912,6 +961,14 @@
 			rules6();
 		}
 		draw3();
+	}
+	
+	function getImage(){
+	 images = new Image();
+     images.src = canvasP1.toDataURL();
+     images.style.width = "10%";
+     images.style.height = "10%";
+		ctxWin.drawImage(images, 200, 4, 72,72);
 	}
 	
 	
