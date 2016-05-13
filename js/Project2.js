@@ -84,6 +84,8 @@
 	let imageP;
 	let images;
 	
+	let imageCount = 1;
+	
 	
 	$("button").button();
 	
@@ -968,7 +970,8 @@
      images.src = canvasP1.toDataURL();
      images.style.width = "10%";
      images.style.height = "10%";
-		ctxWin.drawImage(images, 200, 4, 72,72);
+		ctxWin.drawImage(images, 70 + (imageCount * 90), 4, 72,72);
+		imageCount++;
 	}
 	
 	
