@@ -85,7 +85,18 @@
 	let images;
 	
 	let imageCount = 1;
+	let size = 0;
+	let siX = 0;
+	let siY = 0;
 	
+	//plant 1 boundaries
+	let plant1XMin = 0;
+	let plant1XMax = 0;
+	let plant1YMin = 0;
+	let plant1YMax = 0;
+	
+	
+	let canvas1Rect;
 	
 	$("button").button();
 	
@@ -216,21 +227,21 @@
 		// get reference to <audio> element on page
 		audioElement = document.querySelector('audio');
 		
-		ctx.fillStyle = "blue";
+		ctx.fillStyle = "black";
 		ctx.fillRect(0,0,canvas.width,canvas.height);
 		
 		///plant1 background
-		ctx1.fillStyle = "green";
+		ctx1.fillStyle = "black";
 		ctx1.fillRect(0,0,canvasP1.width,canvasP1.height);
 		
 		
 		
 		//plant2 background
-		ctx2.fillStyle = "pink";
+		ctx2.fillStyle = "black";
 		ctx2.fillRect(0,0,canvasP2.width,canvasP2.height);
 		
 		//plant3 background
-		ctx3.fillStyle = "purple";
+		ctx3.fillStyle = "black";
 		ctx3.fillRect(0,0,canvasP3.width,canvasP3.height);
 		
 		//win background
@@ -272,9 +283,17 @@
 		lastPos2 = vec2(canvasP2.width/2,canvas.height-60);
 		lastPos3 = vec2(canvasP3.width/2,canvas.height-60);
 		
+		plant1XMin = lastPos.x;
+		plant1XMax = lastPos.x;
+		plant1YMin = lastPos.y;
+		plant1YMax = lastPos.y;
+		
 		document.querySelector("#trackSelect").onchange = function(e){
 				playStream(audioElement,e.target.value);
 		};
+		
+		canvas1Rect = canvasP1.getBoundingClientRect();
+		console.log(canvas1Rect);
 		
 		//playStream(audioElement,SOUND_1);
 
@@ -439,7 +458,7 @@
 	
 	
 	function getMousePosition(event){
-			console.log("canvas: " + (canvasP1.width/2-25) + ", " + (canvasP1.width/2 + 25));
+			//console.log("canvas: " + (canvasP1.width/2-25) + ", " + (canvasP1.width/2 + 25));
 
 		//1st pot
 		if((mousex >= canvasP1.width/2-25) & (mousex < canvasP1.width/2 + 25)
@@ -541,6 +560,21 @@
 				else if(string.charAt(j) == ']')
 				{
 					xavier.pop();
+				}
+				if(xavier.pos.x < plant1XMin && xavier.pos.x > 0){
+					plant1XMin = xavier.pos.x;
+					console.log("CanvasX: " + plant1XMin);
+				} 
+				if(xavier.pos.x > plant1XMax && xavier.pos.x < canvasP1.width){
+					plant1XMax = xavier.pos.x;
+					console.log("X: " + plant1XMax);
+				}  
+				if(xavier.pos.y < plant1YMin && xavier.pos.y < canvasP1.height){
+					plant1YMin = xavier.pos.y;
+
+				} 
+				if(xavier.pos.y > plant1YMax && xavier.pos.y > 0){
+					plant1YMax = xavier.pos.y;
 				}  
 				       
 				j++;                   
@@ -970,7 +1004,25 @@
      images.src = canvasP1.toDataURL();
      images.style.width = "10%";
      images.style.height = "10%";
-		ctxWin.drawImage(images, 70 + (imageCount * 90), 4, 72,72);
+     size = canvasWin.height - (canvasWin.height/15);
+		//ctxWin.drawImage(images, 70 + (imageCount * 90), 4, size,size );
+		
+		
+		if((plant1XMax-plant1XMin) > (plant1YMax-plant1YMin)){
+			siX = plant1XMax - plant1XMin;
+			console.log("This");
+		}
+		else if ((plant1XMax-plant1XMin) < (plant1YMax-plant1YMin)){
+			siX = plant1YMax - plant1YMin;
+						console.log("Not This");
+
+		}
+		
+		//do the math
+		//console.log("Size: " + siX + "y: " + siY);
+     console.log("Size: " + size);
+
+		ctxWin.drawImage(images, plant1XMin, plant1YMin, siX,siX,70 + (imageCount * 90), 4, size, size  );
 		imageCount++;
 	}
 	
