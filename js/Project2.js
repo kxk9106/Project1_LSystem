@@ -27,10 +27,6 @@
 	let plant = true;
 	let water = false;
 	
-	//if the pot was clicked
-	let pot1 = false;
-	let pot2 = false;
-	let pot3 = false;
 	
 	let plant1 = 0;
 	let plant2 = 0;
@@ -98,88 +94,70 @@
 	
 	let canvas1Rect;
 	
+	
+	//breeding stuff
+	let genetic;
+	
+	let isBreeding = false;
+	let isPlanting = true;
+	let isDestroying = false;
+	let plantBreeding = [];
+	let plantResults = [];
+	
+	
+	
+	
 	$("button").button();
 	
 	$('#plantButton')
 		.click(function(){
 			plant = true;
 			water = false;
+			
+			isBreeding = false;
+			isPlanting = true;
+			isDestroying = false;
+			
+			ctx1.fillStyle = "red";
+			ctx2.fillStyle = "red";
+			ctx3.fillStyle = "red";
+		
+		
+			ctx1.fillRect(canvasP1.width/2 - 25, canvasP1.height-60, 50,50);
+			ctx2.fillRect(canvasP2.width/2 -25, canvasP2.height-60, 50,50);
+			ctx3.fillRect(canvasP3.width/2 -25, canvasP3.height-60, 50,50);
 	});
 	$('#breedButton')
 		.click(function(){
-			  	console.log("bird: " + document.getElementById("draggable").style.left);
-			  	console.log("bird: " + document.getElementById("draggable").style.top);
-			if(parseInt(document.getElementById("draggable").style.left) > canvas.width/6+54 && parseInt(document.getElementById("draggable").style.left) < canvas.width/6+104
-			&& parseInt(document.getElementById("draggable").style.top) > canvas.height-55 && parseInt(document.getElementById("draggable").style.top) < canvas.height-55 + 50){
-				
-				if(planted == true){
-					if(breed[0] != style && breed[1] != style && breed.length != 2){
-						breed[breedNum] = style;
-					}
-				
-					if(breedNum < 1){
-						breedNum++;
-					}
-				}
-				else if(planted == false && breed.length == 2){
-					didBreed = true;
-					document.getElementById("draggable").style.left = "50px";
-					document.getElementById("draggable").style.top = "210px";
-
-					console.log("breed here");
-					
-	
-				}
-			}
-			else if (parseInt(document.getElementById("draggable").style.left) > canvas.width - canvas.width/1.8 + 54 && parseInt(document.getElementById("draggable").style.left) < canvas.width - canvas.width/1.8 + 104
-			&& parseInt(document.getElementById("draggable").style.top) > canvas.height-60 && parseInt(document.getElementById("draggable").style.top) < canvas.height-60+50){
-				if(planted2 == true){
-					if(breed[0] != style2 && breed[1] != style2 && breed.length != 2){
-						breed[breedNum] = style2;
-					}
-				
-					if(breedNum < 1){
-						breedNum++;
-					}
-				}
-				else if(planted2 == false && breed.length == 2){
-					didBreed2 = true;
-					document.getElementById("draggable").style.left = "50px";
-					document.getElementById("draggable").style.top = "210px";
-					console.log("breed here");
-				}
-			}
-			else if (parseInt(document.getElementById("draggable").style.left) > canvas.width - canvas.width/4 + 70 && parseInt(document.getElementById("draggable").style.left) < canvas.width - canvas.width/4 + 120
-			&& parseInt(document.getElementById("draggable").style.top) > canvas.height-60 && parseInt(document.getElementById("draggable").style.top) < canvas.height-60 + 50){
-				if(planted3 == true){
-					if(breed[0] != style3 && breed[1] != style3 && breed.length != 2){
-						breed[breedNum] = style3;
-					}
-				
-					if(breedNum < 1){
-						breedNum++;
-					}
-				}
-				else if(planted3 == false && breed.length == 2){
-					didBreed3 = true;
-					document.getElementById("draggable").style.left = "50px";
-					document.getElementById("draggable").style.top = "210px";
-					console.log("breed here");
-				}
-			}
-			if(breed.length ==1){
-				$("#breedButton").text("Breed: " + breed[0]);
-			}
-			else if(breed.length ==2){
-				$("#breedButton").text("Breed: " + breed[0] + " + " + breed[1]);
-			}
+			isBreeding = true;
+			isPlanting = false;
+			isDestroying = false;
+			ctx1.fillStyle = "blue";
+			ctx2.fillStyle = "blue";
+			ctx3.fillStyle = "blue";
+		
+		
+			ctx1.fillRect(canvasP1.width/2 - 25, canvasP1.height-60, 50,50);
+			ctx2.fillRect(canvasP2.width/2 -25, canvasP2.height-60, 50,50);
+			ctx3.fillRect(canvasP3.width/2 -25, canvasP3.height-60, 50,50);
+			
+		
 			
 			
 	});
 	$('#eraseButton')
 		.click(function(){
-			$(".toggle").effect("shake");
-				setTimeout(function(){location.reload()},300);
+			isDestroying = true;
+			isBreeding = false;
+			isPlanting = false;
+			ctx1.fillStyle = "yellow";
+			ctx2.fillStyle = "yellow";
+			ctx3.fillStyle = "yellow";
+		
+		
+			ctx1.fillRect(canvasP1.width/2 - 25, canvasP1.height-60, 50,50);
+			ctx2.fillRect(canvasP2.width/2 -25, canvasP2.height-60, 50,50);
+			ctx3.fillRect(canvasP3.width/2 -25, canvasP3.height-60, 50,50);
 	});
 	
 	$(function(){
@@ -295,7 +273,15 @@
 		canvas1Rect = canvasP1.getBoundingClientRect();
 		console.log(canvas1Rect);
 		
+		
+		//sounds
 		//playStream(audioElement,SOUND_1);
+		
+		
+		//breeding stuff
+		genetic = Genetic.create();
+		
+		
 
 		
 	}
@@ -455,6 +441,21 @@
 		setup();
 	}*/
 	
+	//breeding stuff
+	function crossover(mother,father){
+		var len = mother.length;
+		var ca = Math.floor(Math.random()*len);
+		var cb = Math.floor(Math.random()*len);
+		if(ca>cb){
+			cb = ca;
+			//ca = tmp;
+		}
+		var son = father.substr(0,ca) + mother.substr(ca, cb-ca) + father.substr(cb);
+		var daughter = mother.substr(0,ca) + father.substr(ca,cb-ca) + mother.substr(cb);
+		
+		return [son,daughter];
+	}
+	
 	
 	
 	function getMousePosition(event){
@@ -462,12 +463,7 @@
 
 		//1st pot
 		if((mousex >= canvasP1.width/2-25) & (mousex < canvasP1.width/2 + 25)
-		&& (mousey >= canvasP1.height-60) && (mousey < canvasP1.height -10)){
-				pot1 = true;
-				pot2 = false;
-				pot3 = false;
-					//console.log("Mouse: " + mousex + ", " + mousey + "Canvas: " + canvas.width/6+62 + ", " + canvas.width/6 + 112);
-
+		&& (mousey >= canvasP1.height-60) && (mousey < canvasP1.height -10) && isPlanting == true){
 				if(plant1 < 3 && click == true && didBreed == false){
 					plant1++;
 					drawCorrect();
@@ -477,7 +473,15 @@
 					plant1++;
 					drawCorrect4();
 				}
-				
+		}
+		else if((mousex >= canvasP1.width/2-25) & (mousex < canvasP1.width/2 + 25)
+		&& (mousey >= canvasP1.height-60) && (mousey < canvasP1.height -10) && isBreeding == true){
+			console.log("string: " + string);
+			plantBreeding.push(string);
+		}
+		else if((mousex >= canvasP1.width/2-25) & (mousex < canvasP1.width/2 + 25)
+		&& (mousey >= canvasP1.height-60) && (mousey < canvasP1.height -10) && isDestroying== true){
+			clearPlant1();
 		}
 	}
 	function getMousePosition2(event2){
@@ -485,10 +489,7 @@
 		
 		//2nd pot
 		if((mousex2 >= canvasP2.width/2 -25) && (mousex2 < canvasP2.width/2+25)
-		&& (mousey2 >= canvasP2.height-60) && (mousey2 < canvasP2.height-10)){
-				pot1 = false;
-				pot2 = true;
-				pot3 = false;
+		&& (mousey2 >= canvasP2.height-60) && (mousey2 < canvasP2.height-10)&& isPlanting == true){
 				if(plant2 < 3 && click2 == true & didBreed2 == false){
 					plant2++;
 					drawCorrect2();
@@ -498,15 +499,23 @@
 					drawCorrect5();
 				}
 		}
+		else if((mousex2 >= canvasP2.width/2 -25) && (mousex2 < canvasP2.width/2+25)
+		&& (mousey2 >= canvasP2.height-60) && (mousey2 < canvasP2.height-10)&& isBreeding == true){
+			plantBreeding.push(string2);
+			console.log("string: " + string2);
+
+		}
+		else if((mousex2 >= canvasP2.width/2 -25) && (mousex2 < canvasP2.width/2+25)
+		&& (mousey2 >= canvasP2.height-60) && (mousey2 < canvasP2.height-10)&& isDestroying == true){
+			clearPlant2();
+
+		}
 	}
 	function getMousePosition3(event3){
 			console.log("canvas: " + (canvasP1.width/2-25) + ", " + (canvasP1.width/2 + 25));
 		//3rd pot
 		if((mousex3 >= canvasP3.width/2 -25) && (mousex3 < canvasP3.width/2 +25)
-		&& (mousey3 >= canvasP3.height-60) && (mousey3 < canvasP3.height-10)){
-				pot1 = false;
-				pot2 = false;
-				pot3 = true;
+		&& (mousey3 >= canvasP3.height-60) && (mousey3 < canvasP3.height-10)&& isPlanting == true){
 				if(plant3 < 3 && click3 == true && didBreed3 == false){
 					plant3++;
 					drawCorrect3();
@@ -516,8 +525,74 @@
 					drawCorrect6();
 				}
 		}
+		else if((mousex3 >= canvasP3.width/2 -25) && (mousex3 < canvasP3.width/2 +25)
+		&& (mousey3 >= canvasP3.height-60) && (mousey3 < canvasP3.height-10)&& isBreeding == true){
+			plantBreeding.push(string3);
+			console.log("string: " + string3);
+		}
+		else if((mousex3 >= canvasP3.width/2 -25) && (mousex3 < canvasP3.width/2 +25)
+		&& (mousey3 >= canvasP3.height-60) && (mousey3 < canvasP3.height-10)&& isDestroying == true){
+			//plantBreeding.push(string3);
+			//console.log("string: " + string3);
+			clearPlant3();
+		}
 	}
 	
+	function Breeding(){
+		if(plantBreeding.length == 2){
+			plantResults = crossover(plantBreeding[0],plantBreeding[1]);
+			console.log("Genetics: " + plantResults[0] + "second: " + plantResults[1]);
+			plantBreeding = [];
+			clearPlant1();
+			string = plantResults[0];
+			clearPlant2();
+			string2 = plantResults[1];
+			clearPlant3();
+			drawCorrect();
+			drawCorrect2();
+		}
+	}
+	
+	
+	function clearPlant1(){
+		ctx1.clearRect(0,0,canvasP1.width,canvasP1.height);
+		ctx1.fillStyle = "red";
+		ctx1.fillRect(canvasP1.width/2 - 25, canvasP1.height-60, 50,50);
+		lastPos = vec2(canvasP1.width/2,canvas.height-60);
+		string = "F";
+		j = 0;
+		plant1 = 0;
+		click = true;
+		style = "";
+		planted = false;
+		didBreed = false;
+	}
+	function clearPlant2(){
+		ctx2.clearRect(0,0,canvasP1.width,canvasP1.height);
+		ctx2.fillStyle = "red";
+		ctx2.fillRect(canvasP1.width/2 - 25, canvasP1.height-60, 50,50);
+		lastPos2 = vec2(canvasP1.width/2,canvas.height-60);
+		string2 = "F";
+		p = 0;
+		plant2 = 0;
+		click2 = true;
+		style2 = "";
+		planted2 = false;
+		didBreed2 = false;
+	}
+	function clearPlant3(){
+		ctx3.clearRect(0,0,canvasP1.width,canvasP1.height);
+		ctx3.fillStyle = "red";
+		ctx3.fillRect(canvasP1.width/2 - 25, canvasP1.height-60, 50,50);
+		lastPos3 = vec2(canvasP1.width/2,canvas.height-60);
+		string3 = "F";
+		t = 0;
+		plant3 = 0;
+		click3 = true;
+		style3 = "";
+		planted3 = false;
+		didBreed3 = false;
+	}
 		
 
 	
@@ -532,9 +607,6 @@
 		timeDeg = degToRad(time);
 		ctx1.translate(0,0);
 		ctx1.rotate(timeDeg);
-		
-		
-		                    
 		
 		function myLoop () {           
 			setTimeout(function () {    
@@ -1026,7 +1098,7 @@
 		imageCount++;
 	}
 	
-	
+	setInterval(Breeding,100);
 
 }()
 
