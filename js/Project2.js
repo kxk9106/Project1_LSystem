@@ -79,6 +79,7 @@
 	//image stuff plants
 	let imageP;
 	let images;
+	let images2;
 	
 	let imageCount = 1;
 	let size = 0;
@@ -103,6 +104,11 @@
 	let isDestroying = false;
 	let plantBreeding = [];
 	let plantResults = [];
+	
+	let history = false;
+	let imageArray = [];
+	
+	let whichPlantBreed = [];
 	
 	
 	
@@ -160,6 +166,13 @@
 			ctx3.fillRect(canvasP3.width/2 -25, canvasP3.height-60, 50,50);
 	});
 	
+	$('#historyButton')
+		.click(function(){
+			history = !history;
+			console.log("History: " + history);
+			getImage();
+	});
+	
 	$(function(){
 		$("#draggable").draggable();
 	});
@@ -171,13 +184,18 @@
 		ctx = canvas.getContext("2d");
 		canvas.setAttribute("width",window.innerWidth);
 		canvas.setAttribute("height",window.innerHeight - 100);
+			//win canvas
+		canvasWin = document.getElementById("canvasWin");
+		ctxWin = canvasWin.getContext("2d");
+		canvasWin.setAttribute("width",window.innerWidth);
+		canvasWin.setAttribute("height",window.innerHeight/6);
 		
 		
 		//plant1 canvas
 		canvasP1 = document.getElementById("canvasP1");
 		ctx1 = canvasP1.getContext("2d");
 		canvasP1.setAttribute("width",window.innerWidth/4);
-		canvasP1.setAttribute("height",window.innerHeight - 100);
+		canvasP1.setAttribute("height",(window.innerHeight - 100));
 		
 		
 		//plant2 canvas
@@ -193,11 +211,7 @@
 		canvasP3.setAttribute("width",window.innerWidth/4);
 		canvasP3.setAttribute("height",window.innerHeight - 100);
 		
-		//win canvas
-		canvasWin = document.getElementById("canvasWin");
-		ctxWin = canvasWin.getContext("2d");
-		canvasWin.setAttribute("width",window.innerWidth);
-		canvasWin.setAttribute("height",window.innerHeight/7);
+	
 		
 		
 		audioCtx = new AudioContext();
@@ -210,7 +224,7 @@
 		
 		///plant1 background
 		ctx1.fillStyle = "black";
-		ctx1.fillRect(0,0,canvasP1.width,canvasP1.height);
+		ctx1.fillRect(0,canvasWin.height,canvasP1.width,canvasP1.height);
 		
 		
 		
@@ -223,8 +237,8 @@
 		ctx3.fillRect(0,0,canvasP3.width,canvasP3.height);
 		
 		//win background
-		ctxWin.fillStyle = "yellow";
-		ctxWin.fillRect(140,0,canvasWin.width,canvasWin.height);
+		ctxWin.fillStyle = "black";
+		ctxWin.fillRect(0,0,canvasWin.width,canvasWin.height);
 		
 		
 
@@ -442,7 +456,9 @@
 	/*window.onresize = function(){
 		canvas.setAttribute("width",window.innerWidth);
 		canvas.setAttribute("height",window.innerHeight - 100);
-		setup();
+		
+		drawCorrect();
+		drawCorrect2();
 	}*/
 	
 	//breeding stuff
@@ -482,6 +498,7 @@
 		&& (mousey >= canvasP1.height-60) && (mousey < canvasP1.height -10) && isBreeding == true){
 			console.log("string: " + string);
 			plantBreeding.push(string);
+			whichPlantBreed.push(1);
 		}
 		else if((mousex >= canvasP1.width/2-25) & (mousex < canvasP1.width/2 + 25)
 		&& (mousey >= canvasP1.height-60) && (mousey < canvasP1.height -10) && isDestroying== true){
@@ -508,6 +525,7 @@
 		&& (mousey2 >= canvasP2.height-60) && (mousey2 < canvasP2.height-10)&& isBreeding == true){
 			plantBreeding.push(string2);
 			console.log("string: " + string2);
+			whichPlantBreed.push(2);
 
 		}
 		else if((mousex2 >= canvasP2.width/2 -25) && (mousex2 < canvasP2.width/2+25)
@@ -535,6 +553,8 @@
 		&& (mousey3 >= canvasP3.height-60) && (mousey3 < canvasP3.height-10)&& isBreeding == true){
 			plantBreeding.push(string3);
 			console.log("string: " + string3);
+			whichPlantBreed.push(3);
+
 		}
 		else if((mousex3 >= canvasP3.width/2 -25) && (mousex3 < canvasP3.width/2 +25)
 		&& (mousey3 >= canvasP3.height-60) && (mousey3 < canvasP3.height-10)&& isDestroying == true){
@@ -546,6 +566,8 @@
 	
 	function Breeding(){
 		if(plantBreeding.length == 2){
+			getImage();
+
 			window.xavier = new Turtle(ctx1, 250,window.innerHeight);
 			window.jade = new Turtle(ctx2, 250,window.innerHeight);
 			isBreeding == false;
@@ -553,7 +575,7 @@
 			plantResults = crossover(plantBreeding[0],plantBreeding[1]);
 			console.log("Genetics: " + plantResults[0] + " second: " + plantResults[1]);
 			plantBreeding = [];
-			clearPlant1();
+			clearBreedPlant1();
 			string = plantResults[0];
 			
 			//for the '[' characters
@@ -712,13 +734,14 @@
 
 
 			
-			clearPlant2();
+			clearBreedPlant2();
 			string2 = plantResults[1];
-			clearPlant3();
+			clearBreedPlant3();
 			drawCorrect();
 			drawCorrect2();
 			planted = true;
 			planted2 = true;
+			//getImage();
 		}
 	}
 	
@@ -752,6 +775,46 @@
 	function clearPlant3(){
 		ctx3.clearRect(0,0,canvasP1.width,canvasP1.height);
 		ctx3.fillStyle = "red";
+		ctx3.fillRect(canvasP1.width/2 - 25, canvasP1.height-60, 50,50);
+		lastPos3 = vec2(canvasP1.width/2,canvas.height-60);
+		string3 = "F";
+		t = 0;
+		plant3 = 0;
+		click3 = true;
+		style3 = "";
+		planted3 = false;
+		didBreed3 = false;
+	}
+		
+	function clearBreedPlant1(){
+		ctx1.clearRect(0,0,canvasP1.width,canvasP1.height);
+		ctx1.fillStyle = "blue";
+		ctx1.fillRect(canvasP1.width/2 - 25, canvasP1.height-60, 50,50);
+		lastPos = vec2(canvasP1.width/2,canvas.height-60);
+		string = "F";
+		j = 0;
+		plant1 = 0;
+		click = true;
+		style = "";
+		planted = false;
+		didBreed = false;
+	}
+	function clearBreedPlant2(){
+		ctx2.clearRect(0,0,canvasP1.width,canvasP1.height);
+		ctx2.fillStyle = "blue";
+		ctx2.fillRect(canvasP1.width/2 - 25, canvasP1.height-60, 50,50);
+		lastPos2 = vec2(canvasP1.width/2,canvas.height-60);
+		string2 = "F";
+		p = 0;
+		plant2 = 0;
+		click2 = true;
+		style2 = "";
+		planted2 = false;
+		didBreed2 = false;
+	}
+	function clearBreedPlant3(){
+		ctx3.clearRect(0,0,canvasP1.width,canvasP1.height);
+		ctx3.fillStyle = "blue";
 		ctx3.fillRect(canvasP1.width/2 - 25, canvasP1.height-60, 50,50);
 		lastPos3 = vec2(canvasP1.width/2,canvas.height-60);
 		string3 = "F";
@@ -896,7 +959,7 @@
 	
 	function draw2(){	
 		jade.pos = lastPos2;
-		getImage();
+		
 
 		ctx2.fillStyle = "green";		
 
@@ -1247,14 +1310,36 @@
 	
 	function getImage(){
 	 images = new Image();
-     images.src = canvasP1.toDataURL();
+	 images2 = new Image();
+	 if(whichPlantBreed[0] == 1){
+	 	   images.src = canvasP1.toDataURL();
+	 }
+	 if(whichPlantBreed[0] == 2){
+	 		images.src = canvasP2.toDataURL();
+	 }
+	 if(whichPlantBreed[0] == 3){
+	 		images.src = canvasP3.toDataURL();
+	 }
+	 if(whichPlantBreed[1] == 1){
+	 	   images2.src = canvasP1.toDataURL();
+	 }
+	 if(whichPlantBreed[1] == 2){
+	 		images2.src = canvasP2.toDataURL();
+	 }
+	 if(whichPlantBreed[1] == 3){
+	 		images2.src = canvasP3.toDataURL();
+	 }
+	 whichPlantBreed = [];
+	 
      images.style.width = "10%";
      images.style.height = "10%";
-     size = canvasWin.height - (canvasWin.height/15);
+     images2.style.width = "10%";
+     images2.style.height = "10%";
+     
 		//ctxWin.drawImage(images, 70 + (imageCount * 90), 4, size,size );
 		
 		
-		if((plant1XMax-plant1XMin) > (plant1YMax-plant1YMin)){
+		/*if((plant1XMax-plant1XMin) > (plant1YMax-plant1YMin)){
 			siX = plant1XMax - plant1XMin;
 			console.log("This");
 		}
@@ -1262,14 +1347,44 @@
 			siX = plant1YMax - plant1YMin;
 						console.log("Not This");
 
-		}
+		}*/
 		
 		//do the math
 		//console.log("Size: " + siX + "y: " + siY);
-     console.log("Size: " + size);
+    	 console.log("Size: " + size);
+    	 //imageArray.push(images);
 
-		ctxWin.drawImage(images, plant1XMin, plant1YMin, siX,siX,70 + (imageCount * size), 4, size, size  );
-		imageCount++;
+		//ctxWin.drawImage(images, plant1XMin, plant1YMin, siX,siX,70 + (imageCount * size), 4, size, size  );
+		//ctxWin.fillStyle = "yellow";
+		size = canvasWin.height - (canvasWin.height/20);
+		//ctxWin.fillRect(0,0,canvasWin.width,canvasWin.height);
+		//ctxWin.fillStyle = "black";
+		//for (var k = 0; k < imageCount; k++){
+		if((imageCount*size + ((size/7)-size)) + size*3 > canvas.width){
+			imageCount = 1;
+			ctxWin.fillRect((imageCount * size + ((size/7)-size)),0,size,size);
+			ctxWin.fillRect(((imageCount + 1) * size + ((size/7)-size)),0,size,size);
+			ctxWin.fillStyle = "white";
+			ctxWin.fillRect(((imageCount + 1) * size + (size/7)),0,3,canvasWin.height);
+			ctxWin.fillStyle = "black";
+			ctxWin.drawImage(images,(imageCount * size + (size/7))-size, 0, size,size);
+			ctxWin.drawImage(images2,((imageCount + 1) * size + (size/7))-size, 0, size,size);
+
+		}
+		else{
+			ctxWin.fillRect((imageCount * size + ((size/7)-size)),0,size,size);
+			ctxWin.fillRect(((imageCount + 1) * size + ((size/7)-size)),0,size,size);
+			ctxWin.fillStyle = "white";
+			ctxWin.fillRect(((imageCount + 1) * size + (size/7)),0,3,canvasWin.height);
+			ctxWin.fillStyle = "black";
+			ctxWin.drawImage(images,(imageCount * size + (size/7))-size, 0, size,size);
+			ctxWin.drawImage(images2,((imageCount + 1) * size + (size/7))-size, 0, size,size);
+		}
+		//}
+		imageCount = imageCount+2;
+	}
+	function drawImages(){
+	
 	}
 	
 	setInterval(Breeding,100);
