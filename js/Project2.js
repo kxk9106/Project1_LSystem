@@ -299,7 +299,7 @@
 	window.Turtle = function(canvas,startX,startY){
 		Object.assign(this, {
 			canvas:null,
-			weight:1,
+			weight:3,
 			color:'red',
 			pos: vec2(startX,startY),
 			dir: vec2(0,-1),
