@@ -104,6 +104,11 @@
 	let plantBreeding = [];
 	let plantResults = [];
 	
+	let isChecking = false;
+	let isChecking2 = false;
+	var good = false;
+	var good2 = false;
+	
 	
 	
 	
@@ -368,7 +373,7 @@
 			if(string.charAt(i) == 'F')
 			{
 				if(style ==1){
-					newString += "F[+FF]F[-FF][FF]";
+					newString += "F[+FF]F[-FF]][FF]";
 					
 				}
 				else if (style ==2){
@@ -385,8 +390,55 @@
 		}
 		
 		string = newString;
+		console.log("previousString: " + string);
+		checkStrings(string);
+				console.log("nexxtString: " + string);
+
+		/*
+			//for the '[' characters
+			let q = [];
+			let qp = [];
+			let pushing = new RegExp(/\[/,'g');
+			console.log("newStringYes: " + string);
 			
-		
+			while((q = pushing.exec(string)) != null){
+				qp.push(q.index);
+			}
+			
+			//for the ']' characters
+			let n = [];
+			let np = [];
+			let pop = /]/g;
+			
+			while((n = pop.exec(string)) != null){
+				np.push(n.index);
+			}
+			
+				while(np.length > 1){
+				//for the '[' characters
+				let max = Math.max(...qp);
+				qp.pop();
+				//let maxAfter = Math.max(...qp);
+				
+			
+				//for the ']' characters
+				let maxTwo = Math.max(...np);
+				console.log("maxTwo: " + maxTwo);
+				np.pop();
+				let maxTwoAfter = Math.max(...np);
+				
+				if(maxTwoAfter > max){
+					var stringTemp5 = string.slice(0,maxTwoAfter);
+					var stringTemp6 = string.slice((maxTwoAfter + 1), string.length+1);
+					string = stringTemp5 + stringTemp6;
+
+					
+				}
+				
+				
+			}	
+			
+			console.log("newStringYes: " + string);*/
 			
 	}
 	
@@ -555,82 +607,140 @@
 			plantBreeding = [];
 			clearPlant1();
 			string = plantResults[0];
+			clearPlant2();
+			string2 = plantResults[1];
 			
+			console.log("AlltheString: " + string + " sefcondalltheStirng: " + string2);
+			clearPlant3();
+			isChecking2 = true;
+			isChecking2 = true;
+			checkStrings(string,string2);
+			drawCorrect();
+			drawCorrect2();
+			planted = true;
+			planted2 = true;
+		}
+	}
+	
+	/*function checkStringAgagin(string1Temp,string2Temp){
+		var countsi = [];
+		for(int i = 0; i < string1Temp.length; i++){
+			
+		}
+	}*/
+	
+	function checkStrings(string1Temp,string2Temp){
+	
+	console.log("stirnwejfioj: " + string1Temp + " other: " + string2Temp);
 			//for the '[' characters
 			let q = [];
 			let qp = [];
 			let pushing = new RegExp(/\[/,'g');
 			
-			while((q = pushing.exec(string)) != null){
+			while((q = pushing.exec(string1Temp)) != null){
 				qp.push(q.index);
 			}
-			console.log("Matches: " + qp);
+			//console.log("Matches: " + qp);
 			
 			//for the ']' characters
 			let n = [];
 			let np = [];
 			let pop = /]/g;
 			
-			while((n = pop.exec(string)) != null){
+			while((n = pop.exec(string1Temp)) != null){
 				np.push(n.index);
 			}
-			console.log("MatchesTwo: " + np);
+			//console.log("MatchesTwo: " + np);
 			
 			
 			//for the '[' characters
 			for(let j = 0; j < qp.length; j++){
 				if(qp[j] + 1 == qp[j+1]){
-					var stringTemp = string.slice(0,qp[j]);
-					console.log("qp: " + qp);
-					var stringTemp2 = string.slice((qp[j] + 1), string.length+1);
-					string = stringTemp + stringTemp2;
-					console.log("realString: " + string);
+					var stringTemp = string1Temp.slice(0,qp[j]);
+					//console.log("qp: " + qp);
+					var stringTemp2 = string1Temp.slice((qp[j] + 1), string1Temp.length+1);
+					string1Temp = stringTemp + stringTemp2;
+					//console.log("realString: " + string1Temp);
 				}
 			}
 			
 			//for the ']' characters
 			for(let i = 0; i < np.length; i++){
 				if(np[i] + 1 == np[i+1]){
-					console.log("PreviousString: " + string);
-					console.log("PreviousNP: " + np);
+					//console.log("PreviousString: " + string1Temp);
+					//console.log("PreviousNP: " + np);
 					//np.splice(i,1);
-					var stringTemp = string.slice(0,np[i]);
-					console.log("NP: " + np);
-					var stringTemp2 = string.slice((np[i] + 1), string.length+1);
-					string = stringTemp + stringTemp2;
-					console.log("realString: " + string);
+					var stringTemp = string1Temp.slice(0,np[i]);
+					//console.log("NP: " + np);
+					var stringTemp2 = string1Temp.slice((np[i] + 1), string1Temp.length+1);
+					string1Temp = stringTemp + stringTemp2;
+					//console.log("realString: " + string1Temp);
 				}
 			}
 			
 
-			while(np.length > 1){
+			while(np.length != 0){
 				//for the '[' characters
 				let max = Math.max(...qp);
-				console.log("max: " + max);
+				//console.log("max: " + max);
 				qp.pop();
 				//let maxAfter = Math.max(...qp);
 				
 			
 				//for the ']' characters
 				let maxTwo = Math.max(...np);
-				console.log("maxTwo: " + maxTwo);
+				//console.log("maxTwo: " + maxTwo);
 				np.pop();
 				let maxTwoAfter = Math.max(...np);
 				
 				if(maxTwoAfter > max){
-				console.log("NOPEDONT: " + string);
-					var stringTemp5 = string.slice(0,maxTwoAfter);
-					var stringTemp6 = string.slice((maxTwoAfter + 1), string.length+1);
-					string = stringTemp5 + stringTemp6;
-					console.log("YESDO: " + string);
+				//console.log("NOPEDONT: " + string1Temp);
+					var stringTemp5 = string1Temp.slice(0,maxTwoAfter);
+					var stringTemp6 = string1Temp.slice((maxTwoAfter + 1), string1Temp.length+1);
+					string1Temp = stringTemp5 + stringTemp6;
+					//console.log("YESDO: " + string1Temp);
 
 					
 				}
 				
+				string= string1Temp;
+			}
+			
+			/*while(isChecking==true){
+			//debugger;
+				//let min = Math.min(...np);
+				if(np[0] < qp[0]){
+					np.shift();
+				}
+				var aNumber = np[1] - np[0];
+				console.log("Numberis: " + aNumber);
+				for(var i = 1; i < aNumber; i++){
+					for(var k = 1; k <aNumber; k++){
+					console.log("npwis: " + (np[i]-k));
+						//if((np[i] - k) in qp){
+						if(qp.indexOf((np[i]-k)) > -1){
+							//good
+							good = true;
+						}
+						
+					}
+					if(good == false){
+						//take out the bad ]
+						var stringTemp5 = string1Temp.slice(0,np[i]);
+						var stringTemp6 = string1Temp.slice((np[i] + 1), string1Temp.length+1);
+						string1Temp = stringTemp5 + "k" +  stringTemp6;
+					}
+					good = false;
+					aNumber = np[i+1] - np[i];
+				}
+				isChecking = false;
+			}	
+			console.log("tempsting: " + string1Temp);
+			string1Temp = string1Temp.replace(/k/g, "");		
+			string = string1Temp;
+			console.log("thestring: " + string);*/
+		
 				
-			}			
-			
-			
 			//string2
 			
 			
@@ -639,10 +749,10 @@
 			let tp = [];
 			let pushingt = new RegExp(/\[/,'g');
 			
-			while((t = pushingt.exec(string2)) != null){
+			while((t = pushingt.exec(string2Temp)) != null){
 				tp.push(t.index);
 			}
-			console.log("Matches: " + tp);
+			//console.log("Matches: " + tp);
 			
 			
 			
@@ -651,77 +761,97 @@
 			let wp = [];
 			let popw = /]/g;
 			
-			while((w = pop.exec(string2)) != null){
+			while((w = pop.exec(string2Temp)) != null){
 				wp.push(w.index);
 			}
-			console.log("MatchesTwo: " + wp);
+			//console.log("MatchesTwo: " + wp);
 			
 		
 			
 			//for the '[' characters
 			for(let j = 0; j < tp.length; j++){
 				if(tp[j] + 1 == tp[j+1]){
-					var stringTemp = string2.slice(0,tp[j]);
-					var stringTemp2 = string2.slice((tp[j] + 1), string2.length+1);
-					string2 = stringTemp + stringTemp2;
+					var stringTemp = string2Temp.slice(0,tp[j]);
+					var stringTemp2 = string2Temp.slice((tp[j] + 1), string2Temp.length+1);
+					string2Temp = stringTemp + stringTemp2;
 				}
 			}
 			
 			//for the ']' characters
 			for(let i = 0; i < wp.length; i++){
 				if(wp[i] + 1 == wp[i+1]){
-					var stringTemp = string2.slice(0,wp[i]);
-					var stringTemp2 = string2.slice((wp[i] + 1), string2.length+1);
-					string2 = stringTemp + stringTemp2;
+					var stringTemp = string2Temp.slice(0,wp[i]);
+					var stringTemp2 = string2Temp.slice((wp[i] + 1), string2Temp.length+1);
+					string2Temp = stringTemp + stringTemp2;
 				}
 			}
 			
 			
 			
-			while(tp.length > 1){
+			while(tp.length != 0){
 				//for the '[' characters
 				let maxt = Math.max(...tp);
-				console.log("max: " + maxt);
+			//	console.log("max: " + maxt);
 				tp.pop();
 				//let maxAfter = Math.max(...qp);
 				
 			
 				//for the ']' characters
 				let maxTwow = Math.max(...wp);
-				console.log("maxTwoAgain: " + maxTwow);
+				//console.log("maxTwoAgain: " + maxTwow);
 				wp.pop();
 				let maxTwoAfterw = Math.max(...wp);
 				
 				if(maxTwoAfterw > maxt){
-					console.log("Did Special stuff ");
-					var stringTempMax2 = string2.slice(0,maxTwoAfterw);
-					var stringTempMax3 = string2.slice((maxTwoAfterw + 1), string2.length+1);
-					string2 = stringTempMax2 + stringTempMax3;
+					//console.log("Did Special stuff ");
+					var stringTempMax2 = string2Temp.slice(0,maxTwoAfterw);
+					var stringTempMax3 = string2Temp.slice((maxTwoAfterw + 1), string2Temp.length+1);
+					string2Temp = stringTempMax2 + stringTempMax3;
 				}
 				
-				
+				string2 = string2Temp;
 			}
+			
+			/*while(isChecking2==true){
+			//debugger;
+				//let min = Math.min(...np);
+				if(wp[0] < tp[0]){
+					wp.shift();
+				}
+				var aNumber = wp[1] - wp[0];
+				console.log("Numberis2: " + aNumber);
+				for(var i = 1; i < aNumber; i++){
+					for(var k = 1; k <aNumber; k++){
+					console.log("npwis2: " + (np[i]-k));
+						//if((np[i] - k) in qp){
+						if(tp.indexOf((wp[i]-k)) > -1){
+							//good
+							good2 = true;
+						}
+						
+					}
+					if(good2 == false){
+						//take out the bad ]
+						var stringTemp3 = string2Temp.slice(0,wp[i]);
+						var stringTemp4 = string2Temp.slice((wp[i] + 1), string2Temp.length+1);
+						string2Temp = stringTemp3 + "k" +  stringTemp4;
+					}
+					good2 = false;
+					aNumber = wp[i+1] - wp[i];
+				}
+				isChecking2 = false;
+			}	
+			console.log("tempsting2: " + string2Temp);
+			string2Temp = string2Temp.replace(/k/g, "");		
+			string2 = string2Temp;
+			console.log("thestring2: " + string2);
+			
+			string = string1Temp;
+			string2 = string2Temp;*/
+	
 	
 			
-			console.log("newstring: " + string + " second: " + string2);
-
-
-
-
-
-
-
-			
-			clearPlant2();
-			string2 = plantResults[1];
-			clearPlant3();
-			drawCorrect();
-			drawCorrect2();
-			planted = true;
-			planted2 = true;
-		}
 	}
-	
 	
 	function clearPlant1(){
 		ctx1.clearRect(0,0,canvasP1.width,canvasP1.height);
