@@ -369,6 +369,7 @@
 			{
 				if(style ==1){
 					newString += "F[+FF]F[-FF][FF]";
+					
 				}
 				else if (style ==2){
 					newString += "F[F-F]F[+F]F";
@@ -384,6 +385,9 @@
 		}
 		
 		string = newString;
+			
+		
+			
 	}
 	
 	let thetaDeg = 20;
@@ -443,15 +447,15 @@
 	
 	//breeding stuff
 	function crossover(mother,father){
-		var len = mother.length;
-		var ca = Math.floor(Math.random()*len);
-		var cb = Math.floor(Math.random()*len);
+		let len = mother.length;
+		let ca = Math.floor(Math.random()*len);
+		let cb = Math.floor(Math.random()*len);
 		if(ca>cb){
 			cb = ca;
 			//ca = tmp;
 		}
-		var son = father.substr(0,ca) + mother.substr(ca, cb-ca) + father.substr(cb);
-		var daughter = mother.substr(0,ca) + father.substr(ca,cb-ca) + mother.substr(cb);
+		let son = father.substr(0,ca) + mother.substr(ca, cb-ca) + father.substr(cb);
+		let daughter = mother.substr(0,ca) + father.substr(ca,cb-ca) + mother.substr(cb);
 		
 		return [son,daughter];
 	}
@@ -482,6 +486,7 @@
 		else if((mousex >= canvasP1.width/2-25) & (mousex < canvasP1.width/2 + 25)
 		&& (mousey >= canvasP1.height-60) && (mousey < canvasP1.height -10) && isDestroying== true){
 			clearPlant1();
+			window.xavier = new Turtle(ctx1, 250,window.innerHeight);
 		}
 	}
 	function getMousePosition2(event2){
@@ -508,6 +513,7 @@
 		else if((mousex2 >= canvasP2.width/2 -25) && (mousex2 < canvasP2.width/2+25)
 		&& (mousey2 >= canvasP2.height-60) && (mousey2 < canvasP2.height-10)&& isDestroying == true){
 			clearPlant2();
+			window.jade = new Turtle(ctx2, 250,window.innerHeight);
 
 		}
 	}
@@ -540,16 +546,179 @@
 	
 	function Breeding(){
 		if(plantBreeding.length == 2){
+			window.xavier = new Turtle(ctx1, 250,window.innerHeight);
+			window.jade = new Turtle(ctx2, 250,window.innerHeight);
+			isBreeding == false;
+			isPlanting == true;
 			plantResults = crossover(plantBreeding[0],plantBreeding[1]);
-			console.log("Genetics: " + plantResults[0] + "second: " + plantResults[1]);
+			console.log("Genetics: " + plantResults[0] + " second: " + plantResults[1]);
 			plantBreeding = [];
 			clearPlant1();
 			string = plantResults[0];
+			
+			//for the '[' characters
+			let q = [];
+			let qp = [];
+			let pushing = new RegExp(/\[/,'g');
+			
+			while((q = pushing.exec(string)) != null){
+				qp.push(q.index);
+			}
+			console.log("Matches: " + qp);
+			
+			//for the ']' characters
+			let n = [];
+			let np = [];
+			let pop = /]/g;
+			
+			while((n = pop.exec(string)) != null){
+				np.push(n.index);
+			}
+			console.log("MatchesTwo: " + np);
+			
+			
+			//for the '[' characters
+			for(let j = 0; j < qp.length; j++){
+				if(qp[j] + 1 == qp[j+1]){
+					var stringTemp = string.slice(0,qp[j]);
+					console.log("qp: " + qp);
+					var stringTemp2 = string.slice((qp[j] + 1), string.length+1);
+					string = stringTemp + stringTemp2;
+					console.log("realString: " + string);
+				}
+			}
+			
+			//for the ']' characters
+			for(let i = 0; i < np.length; i++){
+				if(np[i] + 1 == np[i+1]){
+					console.log("PreviousString: " + string);
+					console.log("PreviousNP: " + np);
+					//np.splice(i,1);
+					var stringTemp = string.slice(0,np[i]);
+					console.log("NP: " + np);
+					var stringTemp2 = string.slice((np[i] + 1), string.length+1);
+					string = stringTemp + stringTemp2;
+					console.log("realString: " + string);
+				}
+			}
+			
+
+			while(np.length > 1){
+				//for the '[' characters
+				let max = Math.max(...qp);
+				console.log("max: " + max);
+				qp.pop();
+				//let maxAfter = Math.max(...qp);
+				
+			
+				//for the ']' characters
+				let maxTwo = Math.max(...np);
+				console.log("maxTwo: " + maxTwo);
+				np.pop();
+				let maxTwoAfter = Math.max(...np);
+				
+				if(maxTwoAfter > max){
+				console.log("NOPEDONT: " + string);
+					var stringTemp5 = string.slice(0,maxTwoAfter);
+					var stringTemp6 = string.slice((maxTwoAfter + 1), string.length+1);
+					string = stringTemp5 + stringTemp6;
+					console.log("YESDO: " + string);
+
+					
+				}
+				
+				
+			}			
+			
+			
+			//string2
+			
+			
+			//for the '[' characters
+			let t = [];
+			let tp = [];
+			let pushingt = new RegExp(/\[/,'g');
+			
+			while((t = pushingt.exec(string2)) != null){
+				tp.push(t.index);
+			}
+			console.log("Matches: " + tp);
+			
+			
+			
+			//for the ']' characters
+			let w = [];
+			let wp = [];
+			let popw = /]/g;
+			
+			while((w = pop.exec(string2)) != null){
+				wp.push(w.index);
+			}
+			console.log("MatchesTwo: " + wp);
+			
+		
+			
+			//for the '[' characters
+			for(let j = 0; j < tp.length; j++){
+				if(tp[j] + 1 == tp[j+1]){
+					var stringTemp = string2.slice(0,tp[j]);
+					var stringTemp2 = string2.slice((tp[j] + 1), string2.length+1);
+					string2 = stringTemp + stringTemp2;
+				}
+			}
+			
+			//for the ']' characters
+			for(let i = 0; i < wp.length; i++){
+				if(wp[i] + 1 == wp[i+1]){
+					var stringTemp = string2.slice(0,wp[i]);
+					var stringTemp2 = string2.slice((wp[i] + 1), string2.length+1);
+					string2 = stringTemp + stringTemp2;
+				}
+			}
+			
+			
+			
+			while(tp.length > 1){
+				//for the '[' characters
+				let maxt = Math.max(...tp);
+				console.log("max: " + maxt);
+				tp.pop();
+				//let maxAfter = Math.max(...qp);
+				
+			
+				//for the ']' characters
+				let maxTwow = Math.max(...wp);
+				console.log("maxTwoAgain: " + maxTwow);
+				wp.pop();
+				let maxTwoAfterw = Math.max(...wp);
+				
+				if(maxTwoAfterw > maxt){
+					console.log("Did Special stuff ");
+					var stringTempMax2 = string2.slice(0,maxTwoAfterw);
+					var stringTempMax3 = string2.slice((maxTwoAfterw + 1), string2.length+1);
+					string2 = stringTempMax2 + stringTempMax3;
+				}
+				
+				
+			}
+	
+			
+			console.log("newstring: " + string + " second: " + string2);
+
+
+
+
+
+
+
+			
 			clearPlant2();
 			string2 = plantResults[1];
 			clearPlant3();
 			drawCorrect();
 			drawCorrect2();
+			planted = true;
+			planted2 = true;
 		}
 	}
 	
@@ -612,8 +781,9 @@
 			setTimeout(function () {    
 				if(string.charAt(j) =='F')
 				{
-					ctx1.strokeStyle = 'rgb(' + (Math.floor(Math.random() * 256)) + ',' + (Math.floor(Math.random() 
-					* 256)) + ',' + (Math.floor(Math.random() * 256)) + ')';
+					//ctx1.strokeStyle = 'rgb(' + (Math.floor(Math.random() * 256)) + ',' + (Math.floor(Math.random() 
+					//* 256)) + ',' + (Math.floor(Math.random() * 256)) + ')';
+					ctx1.strokeStyle = "white";
 					xavier.move(15)
 				}
 				else if(string.charAt(j) =='+')
@@ -741,8 +911,9 @@
 			setTimeout(function () {    
 				if(string2.charAt(p) =='F')
 				{
-					ctx2.strokeStyle = 'rgb(' + (Math.floor(Math.random() * 256)) + ',' + (Math.floor(Math.random() 
-					* 256)) + ',' + (Math.floor(Math.random() * 256)) + ')';
+					//ctx2.strokeStyle = 'rgb(' + (Math.floor(Math.random() * 256)) + ',' + (Math.floor(Math.random() 
+					//* 256)) + ',' + (Math.floor(Math.random() * 256)) + ')';
+					ctx2.strokeStyle = "white";
 					jade.move(15)
 				}
 				else if(string2.charAt(p) =='+')
@@ -756,10 +927,12 @@
 				}
 				else if(string2.charAt(p) == '[')
 				{
+					//console.log("Array correct: " + this.posArray);
 					jade.push(jade.pos.clone());
 				}
 				else if(string2.charAt(p) == ']')
 				{
+					//console.log("Array Wrong: " + this.posArray);
 					jade.pop();
 				}  
 				       
@@ -848,8 +1021,9 @@
 			setTimeout(function () {    
 				if(string3.charAt(t) =='F')
 				{
-					ctx3.strokeStyle = 'rgb(' + (Math.floor(Math.random() * 256)) + ',' + (Math.floor(Math.random() 
-					* 256)) + ',' + (Math.floor(Math.random() * 256)) + ')';
+					//ctx3.strokeStyle = 'rgb(' + (Math.floor(Math.random() * 256)) + ',' + (Math.floor(Math.random() 
+					//* 256)) + ',' + (Math.floor(Math.random() * 256)) + ')';
+					ctx3.strokeStyle = "white";
 					kristen.move(15)
 				}
 				else if(string3.charAt(t) =='+')
@@ -1094,7 +1268,7 @@
 		//console.log("Size: " + siX + "y: " + siY);
      console.log("Size: " + size);
 
-		ctxWin.drawImage(images, plant1XMin, plant1YMin, siX,siX,70 + (imageCount * 90), 4, size, size  );
+		ctxWin.drawImage(images, plant1XMin, plant1YMin, siX,siX,70 + (imageCount * size), 4, size, size  );
 		imageCount++;
 	}
 	
