@@ -284,7 +284,8 @@
 		
 		
 		//sounds
-		//playStream(audioElement,SOUND_1);
+		playStream(audioElement,SOUND_1);
+		
 		
 		
 		//breeding stuff
@@ -429,8 +430,8 @@
 				let maxTwoAfter = Math.max(...np);
 				
 				if(maxTwoAfter > max){
-					var stringTemp5 = string.slice(0,maxTwoAfter);
-					var stringTemp6 = string.slice((maxTwoAfter + 1), string.length+1);
+					let stringTemp5 = string.slice(0,maxTwoAfter);
+					let stringTemp6 = string.slice((maxTwoAfter + 1), string.length+1);
 					string = stringTemp5 + stringTemp6;
 
 					
@@ -523,12 +524,12 @@
 		//1st pot
 		if((mousex >= canvasP1.width/2-25) & (mousex < canvasP1.width/2 + 25)
 		&& (mousey >= canvasP1.height-60) && (mousey < canvasP1.height -10) && isPlanting == true){
-				if(plant1 < 3 && click == true && didBreed == false){
+				if(plant1 < 2 && click == true && didBreed == false){
 					plant1++;
 					drawCorrect();
 				}
 				console.log("breeds: " + didBreed);
-				if(plant1 < 3 && didBreed == true){
+				if(plant1 < 2 && didBreed == true){
 					plant1++;
 					drawCorrect4();
 				}
@@ -551,11 +552,11 @@
 		//2nd pot
 		if((mousex2 >= canvasP2.width/2 -25) && (mousex2 < canvasP2.width/2+25)
 		&& (mousey2 >= canvasP2.height-60) && (mousey2 < canvasP2.height-10)&& isPlanting == true){
-				if(plant2 < 3 && click2 == true & didBreed2 == false){
+				if(plant2 < 2 && click2 == true & didBreed2 == false){
 					plant2++;
 					drawCorrect2();
 				}
-				if(plant2 < 3 && didBreed2 == true){
+				if(plant2 < 2 && didBreed2 == true){
 					plant2++;
 					drawCorrect5();
 				}
@@ -579,11 +580,11 @@
 		//3rd pot
 		if((mousex3 >= canvasP3.width/2 -25) && (mousex3 < canvasP3.width/2 +25)
 		&& (mousey3 >= canvasP3.height-60) && (mousey3 < canvasP3.height-10)&& isPlanting == true){
-				if(plant3 < 3 && click3 == true && didBreed3 == false){
+				if(plant3 < 2 && click3 == true && didBreed3 == false){
 					plant3++;
 					drawCorrect3();
 				}
-				if(plant3 < 3 && didBreed3 == true){
+				if(plant3 < 2 && didBreed3 == true){
 					plant3++;
 					drawCorrect6();
 				}
@@ -630,7 +631,7 @@
 	}
 	
 	/*function checkStringAgagin(string1Temp,string2Temp){
-		var countsi = [];
+		let countsi = [];
 		for(int i = 0; i < string1Temp.length; i++){
 			
 		}
@@ -663,9 +664,9 @@
 			//for the '[' characters
 			for(let j = 0; j < qp.length; j++){
 				if(qp[j] + 1 == qp[j+1]){
-					var stringTemp = string1Temp.slice(0,qp[j]);
+					let stringTemp = string1Temp.slice(0,qp[j]);
 					//console.log("qp: " + qp);
-					var stringTemp2 = string1Temp.slice((qp[j] + 1), string1Temp.length+1);
+					let stringTemp2 = string1Temp.slice((qp[j] + 1), string1Temp.length+1);
 					string1Temp = stringTemp + stringTemp2;
 					//console.log("realString: " + string1Temp);
 				}
@@ -677,9 +678,9 @@
 					//console.log("PreviousString: " + string1Temp);
 					//console.log("PreviousNP: " + np);
 					//np.splice(i,1);
-					var stringTemp = string1Temp.slice(0,np[i]);
+					let stringTemp = string1Temp.slice(0,np[i]);
 					//console.log("NP: " + np);
-					var stringTemp2 = string1Temp.slice((np[i] + 1), string1Temp.length+1);
+					let stringTemp2 = string1Temp.slice((np[i] + 1), string1Temp.length+1);
 					string1Temp = stringTemp + stringTemp2;
 					//console.log("realString: " + string1Temp);
 				}
@@ -702,8 +703,8 @@
 				
 				if(maxTwoAfter > max){
 				//console.log("NOPEDONT: " + string1Temp);
-					var stringTemp5 = string1Temp.slice(0,maxTwoAfter);
-					var stringTemp6 = string1Temp.slice((maxTwoAfter + 1), string1Temp.length+1);
+					let stringTemp5 = string1Temp.slice(0,maxTwoAfter);
+					let stringTemp6 = string1Temp.slice((maxTwoAfter + 1), string1Temp.length+1);
 					string1Temp = stringTemp5 + stringTemp6;
 					//console.log("YESDO: " + string1Temp);
 
@@ -719,10 +720,10 @@
 				if(np[0] < qp[0]){
 					np.shift();
 				}
-				var aNumber = np[1] - np[0];
+				let aNumber = np[1] - np[0];
 				console.log("Numberis: " + aNumber);
-				for(var i = 1; i < aNumber; i++){
-					for(var k = 1; k <aNumber; k++){
+				for(let i = 1; i < aNumber; i++){
+					for(let k = 1; k <aNumber; k++){
 					console.log("npwis: " + (np[i]-k));
 						//if((np[i] - k) in qp){
 						if(qp.indexOf((np[i]-k)) > -1){
@@ -733,8 +734,8 @@
 					}
 					if(good == false){
 						//take out the bad ]
-						var stringTemp5 = string1Temp.slice(0,np[i]);
-						var stringTemp6 = string1Temp.slice((np[i] + 1), string1Temp.length+1);
+						let stringTemp5 = string1Temp.slice(0,np[i]);
+						let stringTemp6 = string1Temp.slice((np[i] + 1), string1Temp.length+1);
 						string1Temp = stringTemp5 + "k" +  stringTemp6;
 					}
 					good = false;
@@ -778,8 +779,8 @@
 			//for the '[' characters
 			for(let j = 0; j < tp.length; j++){
 				if(tp[j] + 1 == tp[j+1]){
-					var stringTemp = string2Temp.slice(0,tp[j]);
-					var stringTemp2 = string2Temp.slice((tp[j] + 1), string2Temp.length+1);
+					let stringTemp = string2Temp.slice(0,tp[j]);
+					let stringTemp2 = string2Temp.slice((tp[j] + 1), string2Temp.length+1);
 					string2Temp = stringTemp + stringTemp2;
 				}
 			}
@@ -787,8 +788,8 @@
 			//for the ']' characters
 			for(let i = 0; i < wp.length; i++){
 				if(wp[i] + 1 == wp[i+1]){
-					var stringTemp = string2Temp.slice(0,wp[i]);
-					var stringTemp2 = string2Temp.slice((wp[i] + 1), string2Temp.length+1);
+					let stringTemp = string2Temp.slice(0,wp[i]);
+					let stringTemp2 = string2Temp.slice((wp[i] + 1), string2Temp.length+1);
 					string2Temp = stringTemp + stringTemp2;
 				}
 			}
@@ -811,8 +812,8 @@
 				
 				if(maxTwoAfterw > maxt){
 					//console.log("Did Special stuff ");
-					var stringTempMax2 = string2Temp.slice(0,maxTwoAfterw);
-					var stringTempMax3 = string2Temp.slice((maxTwoAfterw + 1), string2Temp.length+1);
+					let stringTempMax2 = string2Temp.slice(0,maxTwoAfterw);
+					let stringTempMax3 = string2Temp.slice((maxTwoAfterw + 1), string2Temp.length+1);
 					string2Temp = stringTempMax2 + stringTempMax3;
 				}
 				
@@ -825,10 +826,10 @@
 				if(wp[0] < tp[0]){
 					wp.shift();
 				}
-				var aNumber = wp[1] - wp[0];
+				let aNumber = wp[1] - wp[0];
 				console.log("Numberis2: " + aNumber);
-				for(var i = 1; i < aNumber; i++){
-					for(var k = 1; k <aNumber; k++){
+				for(let i = 1; i < aNumber; i++){
+					for(let k = 1; k <aNumber; k++){
 					console.log("npwis2: " + (np[i]-k));
 						//if((np[i] - k) in qp){
 						if(tp.indexOf((wp[i]-k)) > -1){
@@ -839,8 +840,8 @@
 					}
 					if(good2 == false){
 						//take out the bad ]
-						var stringTemp3 = string2Temp.slice(0,wp[i]);
-						var stringTemp4 = string2Temp.slice((wp[i] + 1), string2Temp.length+1);
+						let stringTemp3 = string2Temp.slice(0,wp[i]);
+						let stringTemp4 = string2Temp.slice((wp[i] + 1), string2Temp.length+1);
 						string2Temp = stringTemp3 + "k" +  stringTemp4;
 					}
 					good2 = false;
@@ -1261,7 +1262,7 @@
 	function playStream(audioElement,path){
 			audioElement.src = path;
 			audioElement.play();
-			audioElement.volume = 0.5;
+			audioElement.volume = 1.0;
 	}
 	
 	function rules4(){
@@ -1484,7 +1485,7 @@
 		size = canvasWin.height - (canvasWin.height/20);
 		//ctxWin.fillRect(0,0,canvasWin.width,canvasWin.height);
 		//ctxWin.fillStyle = "black";
-		//for (var k = 0; k < imageCount; k++){
+		//for (let k = 0; k < imageCount; k++){
 		if((imageCount*size + ((size/7)-size)) + size*3 > canvas.width){
 			imageCount = 1;
 			ctxWin.fillRect((imageCount * size + ((size/7)-size)),0,size,size);
