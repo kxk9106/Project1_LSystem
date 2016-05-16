@@ -105,17 +105,11 @@
 	let plantBreeding = [];
 	let plantResults = [];
 	
-<<<<<<< HEAD
-	let history = false;
 	let imageArray = [];
 	
 	let whichPlantBreed = [];
-=======
-	let isChecking = false;
-	let isChecking2 = false;
-	var good = false;
-	var good2 = false;
->>>>>>> origin/master
+
+
 	
 	
 	
@@ -173,12 +167,6 @@
 			ctx3.fillRect(canvasP3.width/2 -25, canvasP3.height-60, 50,50);
 	});
 	
-	$('#historyButton')
-		.click(function(){
-			history = !history;
-			console.log("History: " + history);
-			getImage();
-	});
 	
 	$(function(){
 		$("#draggable").draggable();
@@ -389,7 +377,7 @@
 			if(string.charAt(i) == 'F')
 			{
 				if(style ==1){
-					newString += "F[+FF]F[-FF]][FF]";
+					newString += "F[+FF]F[-FF][FF]";
 					
 				}
 				else if (style ==2){
@@ -406,9 +394,6 @@
 		}
 		
 		string = newString;
-		console.log("previousString: " + string);
-		checkStrings(string);
-				console.log("nexxtString: " + string);
 
 		/*
 			//for the '[' characters
@@ -631,13 +616,11 @@
 			plantBreeding = [];
 			clearBreedPlant1();
 			string = plantResults[0];
-			clearPlant2();
+			clearBreedPlant2();
 			string2 = plantResults[1];
 			
 			console.log("AlltheString: " + string + " sefcondalltheStirng: " + string2);
-			clearPlant3();
-			isChecking2 = true;
-			isChecking2 = true;
+			clearBreedPlant3();
 			checkStrings(string,string2);
 			drawCorrect();
 			drawCorrect2();
@@ -870,7 +853,7 @@
 			string2 = string2Temp;
 			console.log("thestring2: " + string2);
 			
-<<<<<<< HEAD
+
 			clearBreedPlant2();
 			string2 = plantResults[1];
 			clearBreedPlant3();
@@ -881,10 +864,8 @@
 			//getImage();
 		}
 	}
-=======
 			string = string1Temp;
 			string2 = string2Temp;*/
->>>>>>> origin/master
 	
 	
 			
@@ -892,7 +873,7 @@
 	
 	function clearPlant1(){
 		ctx1.clearRect(0,0,canvasP1.width,canvasP1.height);
-		ctx1.fillStyle = "red";
+		//ctx1.fillStyle = "red";
 		ctx1.fillRect(canvasP1.width/2 - 25, canvasP1.height-60, 50,50);
 		lastPos = vec2(canvasP1.width/2,canvas.height-60);
 		string = "F";
@@ -905,7 +886,7 @@
 	}
 	function clearPlant2(){
 		ctx2.clearRect(0,0,canvasP1.width,canvasP1.height);
-		ctx2.fillStyle = "red";
+		//ctx2.fillStyle = "red";
 		ctx2.fillRect(canvasP1.width/2 - 25, canvasP1.height-60, 50,50);
 		lastPos2 = vec2(canvasP1.width/2,canvas.height-60);
 		string2 = "F";
@@ -918,7 +899,7 @@
 	}
 	function clearPlant3(){
 		ctx3.clearRect(0,0,canvasP1.width,canvasP1.height);
-		ctx3.fillStyle = "red";
+		//ctx3.fillStyle = "red";
 		ctx3.fillRect(canvasP1.width/2 - 25, canvasP1.height-60, 50,50);
 		lastPos3 = vec2(canvasP1.width/2,canvas.height-60);
 		string3 = "F";
